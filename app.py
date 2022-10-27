@@ -8,7 +8,7 @@ from pyrogram_patch.fsm.storages import MemoryStorage
 
 name_bot = 'test22323_bot'
 URL_DJANGO = 'http://194.58.92.160:8001/api/'
-cheque_root = ''
+cheque_root = '/root/dev/SkillPay-Django'
 
 
 class Actions(StatesGroup):
@@ -20,27 +20,21 @@ class Actions(StatesGroup):
     fio = StateItem()
     acceptCheck = StateItem()
     editCheck = StateItem()
+    cancelTrade = StateItem()
+    waitNewTrade = StateItem()
 
 
 api_id = 27959157
 api_hash = '9acf57f5b026c34ac6080840d14d0fe0'
 
 app = Client('asdas', api_id, api_hash)
-
-
 patch_manager = patch(app)
-
 patch_manager.set_storage(MemoryStorage())
 
 
-@app.on_message(filters=filters.user('me') & filters.regex('Приве\w+'))
-async def get_message(client, message):
-    print(message.text)
-
-
 @app.on_message(filters=filters.user('me'))
-async def my(client, message):
-    print(message)
+async def my(client, message, state: State):
+    print(message.text)
     if message.text == 'start':
         await client.send_message(
             chat_id=name_bot,
@@ -48,27 +42,6 @@ async def my(client, message):
         )
     elif message.text == 'stop':
         print('тормозим')
-
-
-# @app.on_message(filters=filters.user(name_bot))
-# async def my(client, message):
-#     print(message)
-#     if message.text == 'start':
-#         await client.send_message(
-#             chat_id='KFOperatingBot',
-#             text='/start'
-#         )
-#     elif message.text == 'stop':
-#         print('тормозим')
-
-
-# @app.on_message(filters=filters.user(name_bot) & filters.regex('Привет\w+'))
-# async def click_statuses(client, message):
-#     await client.send_message(
-#         chat_id='KFOperatingBot',
-#         text=message.reply_markup.keyboard[0][1],
-#     )
-#     await asyncio.sleep(1)
 
 
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Смена статус\w+'))
@@ -110,9 +83,9 @@ def checking_trades(kftrade_id):
 
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Источн\w+') & StateFilter('*'))
 async def get_trade(client, message, state: State):
+    print('нам что то пришло')
     await state.set_state(Actions.newTrade)
     trade = message.text
-    message_id = message.id
     trade_split = trade.split('\n')
     print(trade_split)
     id = trade_split[1].split()[1]
@@ -161,10 +134,14 @@ async def get_trade(client, message, state: State):
             await message.click(0, 1, timeout=0)
         except TimeoutError:
             print('ошибка как всегда')
-        ###
-        ### Кнопка отклонить, написать "Прошу повторить через 5 минут" 
-        ###
-        
+        await state.set_state(Actions.cancelTrade)
+
+
+@app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cancelTrade))
+async def send_cancel_message(client, message, state: State):
+    await client.send_message(name_bot, 'Прошу повторить через 5 минут')
+    await state.set_state(Actions.cardNumber)
+
 
 @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.paymentSystem))
 async def get_paymethod(client, message, state: State):
@@ -193,7 +170,7 @@ async def get_card_number(client, message, state: State):
 @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.funds))
 async def get_funds(client, message, state: State):
     print('funds', message.text)
-    
+
     await state.set_state(Actions.fio)
 
 
@@ -204,7 +181,8 @@ def send_check(kftrade_id):
         print(req_status.status_code, req_status.json())
         kftrade = req_status.json()
         if kftrade['kftrade']['cheque']:
-            return kftrade['kftrade']['cheque']
+            # return kftrade['kftrade']['cheque']
+            return '2.jpg'
         else:
             continue
 
@@ -218,9 +196,10 @@ async def get_fio(client, message, state: State):
 @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.editCheck))
 async def send_cheque(client, message, state: State):
     print('editcheck', message.text)
+    state_data = await state.get_data()
+    kftrade_id = state_data['id']
     await asyncio.sleep(1)
-    await client.send_photo(name_bot, '2.jpg')
-
+    await client.send_photo(name_bot, send_check(kftrade_id=kftrade_id))
     await state.set_state(Actions.acceptCheck)
 
 
