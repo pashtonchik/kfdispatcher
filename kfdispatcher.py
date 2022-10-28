@@ -24,8 +24,8 @@ class Actions(StatesGroup):
     waitNewTrade = StateItem()
 
 
-api_id = 27959157
-api_hash = '9acf57f5b026c34ac6080840d14d0fe0'
+api_id = 24124872
+api_hash = 'd368ec365944a3198966e6ae46203edc'
 
 app = Client('asdas', api_id, api_hash)
 patch_manager = patch(app)
