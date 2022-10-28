@@ -192,7 +192,7 @@ async def get_fio(client, message, state: State):
     await state.set_state(Actions.editCheck)
 
 
-@app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.editCheck))
+@app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.editCheck) & filters.regex('\w+дание подтверж\w+'))
 async def send_cheque(client, message, state: State):
     print('editcheck', message.text)
     state_data = await state.get_data()
@@ -202,7 +202,7 @@ async def send_cheque(client, message, state: State):
     await state.set_state(Actions.acceptCheck)
 
 
-@app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.acceptCheck))
+@app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.acceptCheck) & filters.regex('Это докумен\w+'))
 async def accept_cheque(client, message, state: State):
     print('accept', message.text)
     try:
