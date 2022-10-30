@@ -198,7 +198,7 @@ async def send_cheque(client, message, state: State):
     state_data = await state.get_data()
     kftrade_id = state_data['id']
     await asyncio.sleep(1)
-    await client.send_photo(name_bot, cheque_root + send_check(kftrade_id=kftrade_id))
+    await client.send_document(name_bot, cheque_root + send_check(kftrade_id=kftrade_id))
     await state.set_state(Actions.acceptCheck)
 
 
