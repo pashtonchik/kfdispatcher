@@ -66,10 +66,10 @@ async def click_tinkoff(client, message):
             await asyncio.sleep(1)
 
 
-def checking_trades(kftrade_id):
+async def checking_trades(kftrade_id):
     start_time = time.time()
     while 1:
-        time.sleep(5)
+        await asyncio.sleep(1)
         req_status = requests.get(URL_DJANGO + f'kf/trade/detail/{kftrade_id}/')
         print(req_status.status_code, req_status.json())
         kftrade = req_status.json()
@@ -105,7 +105,7 @@ async def get_trade(client, message, state: State):
 
     a = requests.post(URL_DJANGO + 'create/kf/trade/', json=trade_info)
     print(a.status_code)
-    if checking_trades(id):
+    if await checking_trades(id):
         print('aaaaa')
         print(message.reply_markup.inline_keyboard)
         try:
@@ -174,9 +174,9 @@ async def get_funds(client, message, state: State):
     await state.set_state(Actions.fio)
 
 
-def send_check(kftrade_id):
+async def send_check(kftrade_id):
     while 1:
-        time.sleep(5)
+        await asyncio.sleep(1)
         req_status = requests.get(URL_DJANGO + f'kf/trade/detail/{kftrade_id}/')
         print(req_status.status_code, req_status.json())
         kftrade = req_status.json()
@@ -198,7 +198,7 @@ async def send_cheque(client, message, state: State):
     state_data = await state.get_data()
     kftrade_id = state_data['id']
     await asyncio.sleep(1)
-    await client.send_document(name_bot, cheque_root + send_check(kftrade_id=kftrade_id))
+    await client.send_document(name_bot, cheque_root + await send_check(kftrade_id=kftrade_id))
     await state.set_state(Actions.acceptCheck)
 
 
