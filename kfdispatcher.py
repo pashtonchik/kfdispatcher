@@ -71,7 +71,6 @@ async def checking_trades(kftrade_id):
     while 1:
         await asyncio.sleep(0)
         req_status = requests.get(URL_DJANGO + f'kf/trade/detail/{kftrade_id}/')
-        print(req_status.status_code, req_status.json())
         kftrade = req_status.json()
         if kftrade['kftrade']['agent']:
             return True
@@ -86,6 +85,7 @@ async def get_trade(client, message, state: State):
     print('нам что то пришло')
     await state.set_state(Actions.newTrade)
     trade = message.text
+    print(trade)
     trade_split = trade.split('\n')
     print(trade_split)
     id = trade_split[1].split()[1]
