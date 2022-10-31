@@ -69,7 +69,7 @@ async def click_tinkoff(client, message):
 async def checking_trades(kftrade_id):
     start_time = time.time()
     while 1:
-        await asyncio.sleep(1)
+        await asyncio.sleep(0)
         req_status = requests.get(URL_DJANGO + f'kf/trade/detail/{kftrade_id}/')
         print(req_status.status_code, req_status.json())
         kftrade = req_status.json()
@@ -119,22 +119,22 @@ async def get_trade(client, message, state: State):
         }
 
         a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
-        print(a.status_code, 'card is')
-        await state.set_state(Actions.paymentSystem)
+        if a.status_code == 200:
+            print(a.status_code, 'card is')
+            await state.set_state(Actions.paymentSystem)
     else:
 
         trade_info = {
             'id': id,
             'status': 'closed',
         }
-
         a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
-
-        try:
-            await message.click(0, 1, timeout=0)
-        except TimeoutError:
-            print('ошибка как всегда')
-        await state.set_state(Actions.cancelTrade)
+        if a.status_code == 200:
+            try:
+                await message.click(0, 1, timeout=0)
+            except TimeoutError:
+                print('ошибка как всегда')
+            await state.set_state(Actions.cancelTrade)
 
 
 @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cancelTrade))
@@ -164,7 +164,8 @@ async def get_card_number(client, message, state: State):
     }
 
     a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
-    await state.set_state(Actions.funds)
+    if a.status_code == 200:
+        await state.set_state(Actions.funds)
 
 
 @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.funds))
@@ -176,14 +177,15 @@ async def get_funds(client, message, state: State):
 
 async def send_check(kftrade_id):
     while 1:
-        await asyncio.sleep(1)
+        await asyncio.sleep(0)
         req_status = requests.get(URL_DJANGO + f'kf/trade/detail/{kftrade_id}/')
-        print(req_status.status_code, req_status.json())
-        kftrade = req_status.json()
-        if kftrade['kftrade']['cheque']:
-            return kftrade['kftrade']['cheque']
-        else:
-            continue
+        if req_status.status_code == 200:
+            print(req_status.status_code, req_status.json())
+            kftrade = req_status.json()
+            if kftrade['kftrade']['cheque']:
+                return kftrade['kftrade']['cheque']
+            else:
+                continue
 
 
 @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.fio))
@@ -218,7 +220,8 @@ async def accept_cheque(client, message, state: State):
     }
 
     a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
-    await state.finish()
+    if a.status_code == 200:
+        await state.finish()
 
 
 app.run()
