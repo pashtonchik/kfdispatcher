@@ -32,16 +32,16 @@ patch_manager = patch(app)
 patch_manager.set_storage(MemoryStorage())
 
 
-@app.on_message(filters=filters.user('me'))
-async def my(client, message, state: State):
-    print(message.text)
-    if message.text == 'start':
-        await client.send_message(
-            chat_id=name_bot,
-            text='/start'
-        )
-    elif message.text == 'stop':
-        print('тормозим')
+# @app.on_message(filters=filters.user('me'))
+# async def my(client, message, state: State):
+#     print(message.text)
+#     if message.text == 'start':
+#         await client.send_message(
+#             chat_id=name_bot,
+#             text='/start'
+#         )
+#     elif message.text == 'stop':
+#         print('тормозим')
 
 
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Смена статус\w+'))
