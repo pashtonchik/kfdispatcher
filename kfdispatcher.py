@@ -92,7 +92,7 @@ async def get_trade(client, message, state: State):
     await state.set_data({'id': id})
 
     trade_info = {
-        'id': trade_split[1].split()[1],
+        'id': id,
         'card_number': trade_split[2].split()[1],
         'source': trade_split[0].split()[1],
         'paymethod': 443 if trade_split[4].split()[1] == 'TINKOFF' else 3547,
