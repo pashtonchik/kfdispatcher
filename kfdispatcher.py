@@ -134,22 +134,22 @@ async def get_trade(client, message, state: State):
                 await message.click(0, 1, timeout=0)
             except TimeoutError:
                 print('ошибка как всегда')
-            await state.set_state(Actions.cancelTrade)
+            await state.set_state(Actions.cardNumber)
 
 
-@app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cancelTrade))
-async def send_cancel_message(client, message, state: State):
-    await client.send_message(name_bot, 'Прошу повторить через 5 минут')
-    await state.set_state(Actions.cardNumber)
+# @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cancelTrade))
+# async def send_cancel_message(client, message, state: State):
+#     await client.send_message(name_bot, 'Прошу повторить через 5 минут')
+#     await state.set_state(Actions.cardNumber)
+#
+#
+# @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.paymentSystem))
+# async def get_paymethod(client, message, state: State):
+#     print(message.text)
+#     await state.set_state(Actions.cardNumber)
 
 
-@app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.paymentSystem))
-async def get_paymethod(client, message, state: State):
-    print(message.text)
-    await state.set_state(Actions.cardNumber)
-
-
-@app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cardNumber))
+@app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cardNumber) & filters.regex('\w+\d{8}\w+'))
 async def get_card_number(client, message, state: State):
     card_number = message.text
     print(message.text)
@@ -165,14 +165,14 @@ async def get_card_number(client, message, state: State):
 
     a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
     if a.status_code == 200:
-        await state.set_state(Actions.funds)
+        await state.set_state(Actions.editCheck)
 
 
-@app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.funds))
-async def get_funds(client, message, state: State):
-    print('funds', message.text)
-
-    await state.set_state(Actions.fio)
+# @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.funds))
+# async def get_funds(client, message, state: State):
+#     print('funds', message.text)
+#
+#     await state.set_state(Actions.fio)
 
 
 async def send_check(kftrade_id):
@@ -188,10 +188,10 @@ async def send_check(kftrade_id):
                 continue
 
 
-@app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.fio))
-async def get_fio(client, message, state: State):
-    print('fio', message.text)
-    await state.set_state(Actions.editCheck)
+# @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.fio))
+# async def get_fio(client, message, state: State):
+#     print('fio', message.text)
+#     await state.set_state(Actions.editCheck)
 
 
 @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.editCheck) & filters.regex('\w+дание подтверж\w+'))
