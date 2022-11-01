@@ -6,7 +6,7 @@ from pyrogram_patch.fsm import StatesGroup, StateItem, StateFilter, State
 from pyrogram_patch import patch
 from pyrogram_patch.fsm.storages import MemoryStorage
 
-name_bot = 'test22323_bot'
+name_bot = 'KFOperatingBot'
 URL_DJANGO = 'http://194.58.92.160:8001/api/'
 cheque_root = '/root/dev/SkillPay-Django'
 
@@ -74,7 +74,7 @@ async def checking_trades(kftrade_id):
         kftrade = req_status.json()
         if kftrade['kftrade']['agent']:
             return True
-        elif time.time() - start_time < 1140:
+        elif time.time() - start_time < 60:
             continue
         else:
             return False
@@ -121,7 +121,7 @@ async def get_trade(client, message, state: State):
         a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
         if a.status_code == 200:
             print(a.status_code, 'card is')
-            await state.set_state(Actions.paymentSystem)
+            await state.set_state(Actions.cardNumber)
     else:
 
         trade_info = {
@@ -131,18 +131,18 @@ async def get_trade(client, message, state: State):
         a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
         if a.status_code == 200:
             try:
-                await message.click(0, 1, timeout=0)
+                await message.click(1, 0, timeout=0)
             except TimeoutError:
                 print('ошибка как всегда')
-            await state.set_state(Actions.cardNumber)
+            await state.set_state(Actions.cancelTrade)
 
 
-# @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cancelTrade))
-# async def send_cancel_message(client, message, state: State):
-#     await client.send_message(name_bot, 'Прошу повторить через 5 минут')
-#     await state.set_state(Actions.cardNumber)
-#
-#
+@app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cancelTrade))
+async def send_cancel_message(client, message, state: State):
+    await client.send_message(name_bot, 'Прошу повторить через 5 минут')
+    await state.finish()
+
+
 # @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.paymentSystem))
 # async def get_paymethod(client, message, state: State):
 #     print(message.text)
