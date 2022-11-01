@@ -159,7 +159,7 @@ async def get_card_number(client, message, state: State):
     trade_info = {
         'id': kftrade_id,
         'card_number': card_number,
-        'status': 'trade_active',
+        'status': 'trade_created',
     }
 
     a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
