@@ -66,26 +66,10 @@ async def click_tinkoff(client, message):
             await asyncio.sleep(1)
 
 
-# async def checking_trades(kftrade_id):
-#     start_time = time.time()
-#     while 1:
-#         await asyncio.sleep(0)
-#         req_status = requests.get(URL_DJANGO + f'kf/trade/detail/{kftrade_id}/')
-#         kftrade = req_status.json()
-#         if kftrade['kftrade']['agent']:
-#             return True
-#         elif time.time() - start_time < 60:
-#             continue
-#         else:
-#             return False
-
-
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Источн\w+') & StateFilter('*'))
 async def get_trade(client, message, state: State):
-    print('нам что то пришло')
     await state.set_state(Actions.newTrade)
     trade = message.text
-    print(trade)
     trade_split = trade.split('\n')
     print(trade_split)
     id = trade_split[1].split()[1]
@@ -104,13 +88,10 @@ async def get_trade(client, message, state: State):
     }
 
     a = requests.post(URL_DJANGO + 'create/kf/trade/', json=trade_info)
-    print(a.status_code)
-    # if await checking_trades(id):
-    print(message.reply_markup.inline_keyboard)
     try:
         await message.click(0, 0, timeout=0)
     except TimeoutError:
-        print('ошибка как всегда')
+        print('тык принять')
 
     trade_info = {
         'id': id,
@@ -121,19 +102,6 @@ async def get_trade(client, message, state: State):
     if a.status_code == 200:
         print(a.status_code, 'card is')
         await state.set_state(Actions.cardNumber)
-    # else:
-    #
-    #     trade_info = {
-    #         'id': id,
-    #         'status': 'closed',
-    #     }
-    #     a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
-    #     if a.status_code == 200:
-    #         try:
-    #             await message.click(1, 0, timeout=0)
-    #         except TimeoutError:
-    #             print('ошибка как всегда')
-    #         await state.set_state(Actions.cancelTrade)
 
 
 @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cancelTrade))
@@ -142,17 +110,10 @@ async def send_cancel_message(client, message, state: State):
     await state.finish()
 
 
-# @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.paymentSystem))
-# async def get_paymethod(client, message, state: State):
-#     print(message.text)
-#     await state.set_state(Actions.cardNumber)
-
-
 @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cardNumber) & filters.regex('\w+\d{8}\w+'))
 async def get_card_number(client, message, state: State):
+    print('card_number', message.text)
     card_number = message.text
-    print(message.text)
-    print(await state.get_data())
     state_data = await state.get_data()
     kftrade_id = state_data['id']
 
@@ -167,33 +128,19 @@ async def get_card_number(client, message, state: State):
         await state.set_state(Actions.editCheck)
 
 
-# @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.funds))
-# async def get_funds(client, message, state: State):
-#     print('funds', message.text)
-#
-#     await state.set_state(Actions.fio)
-
-
 async def send_check(kftrade_id):
     start_time = time.time()
     while 1:
         await asyncio.sleep(0)
         req_status = requests.get(URL_DJANGO + f'kf/trade/detail/{kftrade_id}/')
         if req_status.status_code == 200:
-            print(req_status.status_code, req_status.json())
             kftrade = req_status.json()
             if kftrade['kftrade']['cheque']:
                 return kftrade['kftrade']['cheque']
-            elif time.time() - start_time < 60:
-                continue
-            else:
+            elif kftrade['kftrade']['status'] == 'time_cancel':
                 return False
-
-
-# @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.fio))
-# async def get_fio(client, message, state: State):
-#     print('fio', message.text)
-#     await state.set_state(Actions.editCheck)
+            else:
+                continue
 
 
 @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.editCheck) & filters.regex('\w+дание подтверж\w+'))
@@ -215,17 +162,16 @@ async def send_cheque(client, message, state: State):
             try:
                 await message.click(0, timeout=0)
             except TimeoutError:
-                print('ошибка как всегда')
+                print('тык отмена')
             await state.set_state(Actions.cancelTrade)
 
 
 @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.acceptCheck) & filters.regex('Это докумен\w+'))
 async def accept_cheque(client, message, state: State):
-    print('accept', message.text)
     try:
         await message.click(0, 0, timeout=0)
     except TimeoutError:
-        print('ошибка как всегда')
+        print('тык да')
     state_data = await state.get_data()
     kftrade_id = state_data['id']
 
