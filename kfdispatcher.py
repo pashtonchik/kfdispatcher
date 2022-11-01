@@ -150,8 +150,9 @@ async def send_cheque(client, message, state: State):
     kftrade_id = state_data['id']
     kftrade_cheque_file = await send_check(kftrade_id=kftrade_id)
     if kftrade_cheque_file:
-        await client.send_document(name_bot, cheque_root + kftrade_cheque_file)
+        # await client.send_document(name_bot, cheque_root + kftrade_cheque_file)
         await state.set_state(Actions.acceptCheck)
+        print('чек типо отправляем')
     else:
         trade_info = {
             'id': kftrade_id,
