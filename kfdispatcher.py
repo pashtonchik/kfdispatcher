@@ -83,7 +83,7 @@ async def get_trade(client, message, state: State):
         'fio': trade_split[6].split()[1],
         'amount': int(trade_split[5].split()[1]),
         'comment': trade_split[7],
-        'type': trade_split[4].split()[1],
+        'type': trade_split[4].split()[1][0:4],
         'status': 'trade_created',
     }
 
