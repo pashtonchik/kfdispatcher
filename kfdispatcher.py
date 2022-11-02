@@ -46,16 +46,16 @@ patch_manager.set_storage(MemoryStorage())
 
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Смена статус\w+'))
 async def click_tinkoff(client, message):
-    if message.reply_markup.inline_keyboard[2][0].callback_data == 'p2p_private_status_edittool_SBERBANK_enable':
-        try:
-            await client.request_callback_answer(
-                chat_id=name_bot,
-                message_id=message.id,
-                callback_data=message.reply_markup.inline_keyboard[2][0].callback_data,
-            )
-        except TimeoutError:
-            await asyncio.sleep(1)
-    elif message.reply_markup.inline_keyboard[3][0].callback_data == 'p2p_private_status_edittool_TINKOFF_enable':
+#    if message.reply_markup.inline_keyboard[2][0].callback_data == 'p2p_private_status_edittool_SBERBANK_enable':
+#        try:
+#            await client.request_callback_answer(
+#                chat_id=name_bot,
+#                message_id=message.id,
+#                callback_data=message.reply_markup.inline_keyboard[2][0].callback_data,
+#            )
+#        except TimeoutError:
+#            await asyncio.sleep(1)
+    if message.reply_markup.inline_keyboard[3][0].callback_data == 'p2p_private_status_edittool_TINKOFF_enable':
         try:
             await client.request_callback_answer(
                 chat_id=name_bot,
@@ -150,7 +150,7 @@ async def send_cheque(client, message, state: State):
     kftrade_id = state_data['id']
     kftrade_cheque_file = await send_check(kftrade_id=kftrade_id)
     if kftrade_cheque_file:
-        # await client.send_document(name_bot, cheque_root + kftrade_cheque_file)
+        await client.send_document(name_bot, cheque_root + kftrade_cheque_file)
         await state.set_state(Actions.acceptCheck)
         print('чек типо отправляем')
     else:
