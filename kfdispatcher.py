@@ -178,7 +178,7 @@ async def accept_cheque(client, message, state: State):
 
     trade_info = {
         'id': kftrade_id,
-        'status': 'confirm',
+        'status': 'confirm_payment',
     }
 
     a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
