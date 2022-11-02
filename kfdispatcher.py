@@ -146,7 +146,11 @@ async def send_cheque(client, message, state: State):
     kftrade_id = state_data['id']
     kftrade_cheque_file = await send_check(kftrade_id=kftrade_id)
     if kftrade_cheque_file:
-        await client.send_document(name_bot,  URL_FILE + kftrade_cheque_file)
+        r = requests.get(URL_FILE + kftrade_cheque_file,)
+
+        with open(f'{kftrade_id}.pdf', 'wb') as f:
+            f.write(r.content)
+        await client.send_document(name_bot,  f'{kftrade_id}.pdf')
         await state.set_state(Actions.acceptCheck)
         print('чек типо отправляем')
     else:
