@@ -151,7 +151,10 @@ async def send_cheque(client, message, state: State):
         with open(f'checks/{kftrade_id}.pdf', 'wb') as f:
             f.write(r.content)
         await client.send_document(name_bot,  f'checks/{kftrade_id}.pdf')
-        os.remove(f'{kftrade_id}.pdf')
+        try:
+            os.remove(f'checks/{kftrade_id}.pdf')
+        except: 
+            pass
         await state.set_state(Actions.acceptCheck)
         print('чек типо отправляем')
     else:
