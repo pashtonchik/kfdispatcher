@@ -8,9 +8,9 @@ from pyrogram_patch.fsm.storages import MemoryStorage
 import sys
 
 
-name_bot = 'KFOperatingBot'
+name_bot = 'test22323_bot'
 URL_DJANGO = 'http://194.58.92.160:8001/api/'
-URL_FILE = 'http://194.58.92.160:8001/kf_checks/kf_checks/'
+URL_FILE = 'http://194.58.92.160:8001'
 cheque_root = '/root/dev/SkillPay-Django'
 
 
@@ -146,8 +146,9 @@ async def send_cheque(client, message, state: State):
     kftrade_id = state_data['id']
     kftrade_cheque_file = await send_check(kftrade_id=kftrade_id)
     if kftrade_cheque_file:
-        r = requests.get(URL_FILE + kftrade_cheque_file,)
-
+        r = requests.get(URL_FILE + kftrade_cheque_file)
+        print(URL_FILE + kftrade_cheque_file)
+        print(r.status_code)
         with open(f'{kftrade_id}.pdf', 'wb') as f:
             f.write(r.content)
         await client.send_document(name_bot,  f'{kftrade_id}.pdf')
