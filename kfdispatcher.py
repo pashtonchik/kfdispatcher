@@ -5,9 +5,12 @@ import requests
 from pyrogram_patch.fsm import StatesGroup, StateItem, StateFilter, State
 from pyrogram_patch import patch
 from pyrogram_patch.fsm.storages import MemoryStorage
+import sys
+
 
 name_bot = 'KFOperatingBot'
 URL_DJANGO = 'http://194.58.92.160:8001/api/'
+URL_FILE = 'http://194.58.92.160:8001/kf_checks/kf_checks/'
 cheque_root = '/root/dev/SkillPay-Django'
 
 
@@ -24,24 +27,17 @@ class Actions(StatesGroup):
     waitNewTrade = StateItem()
 
 
-api_id = 24124872
-api_hash = 'd368ec365944a3198966e6ae46203edc'
+if __name__ == '__main__':
 
-app = Client('asdas', api_id, api_hash)
-patch_manager = patch(app)
-patch_manager.set_storage(MemoryStorage())
+    # api_id = 24124872
+    # api_hash = 'd368ec365944a3198966e6ae46203edc'
 
+    api_id  = int(sys.argv[1])
+    api_hash = sys.argv[2] 
+    app = Client(f'session/{api_id}', api_id, api_hash)
+    patch_manager = patch(app)
+    patch_manager.set_storage(MemoryStorage())
 
-# @app.on_message(filters=filters.user('me'))
-# async def my(client, message, state: State):
-#     print(message.text)
-#     if message.text == 'start':
-#         await client.send_message(
-#             chat_id=name_bot,
-#             text='/start'
-#         )
-#     elif message.text == 'stop':
-#         print('тормозим')
 
 
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Смена статус\w+'))
@@ -150,7 +146,7 @@ async def send_cheque(client, message, state: State):
     kftrade_id = state_data['id']
     kftrade_cheque_file = await send_check(kftrade_id=kftrade_id)
     if kftrade_cheque_file:
-        await client.send_document(name_bot, cheque_root + kftrade_cheque_file)
+        await client.send_document(name_bot,  URL_FILE + kftrade_cheque_file)
         await state.set_state(Actions.acceptCheck)
         print('чек типо отправляем')
     else:
