@@ -7,11 +7,15 @@ from pyrogram_patch import patch
 from pyrogram_patch.fsm.storages import MemoryStorage
 import sys
 import os
+import uvloop
+
 
 name_bot = 'KFOperatingBot'
 URL_DJANGO = 'http://194.58.92.160:8001/api/'
 URL_FILE = 'http://194.58.92.160:8001'
 cheque_root = '/root/dev/SkillPay-Django'
+
+uvloop.install()
 
 
 class Actions(StatesGroup):
