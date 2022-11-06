@@ -15,8 +15,6 @@ URL_DJANGO = 'http://194.58.92.160:8001/api/'
 URL_FILE = 'http://194.58.92.160:8001'
 cheque_root = '/root/dev/SkillPay-Django'
 
-uvloop.install()
-
 
 class Actions(StatesGroup):
     newTrade = StateItem()
@@ -30,6 +28,7 @@ class Actions(StatesGroup):
     cancelTrade = StateItem()
     waitNewTrade = StateItem()
 
+uvloop.install()
 
 if __name__ == '__main__':
 
