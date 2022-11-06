@@ -8,7 +8,7 @@ from pyrogram_patch.fsm.storages import MemoryStorage
 import sys
 import os
 
-name_bot = 'test22323_bot'
+name_bot = 'KFOperatingBot'
 URL_DJANGO = 'http://194.58.92.160:8001/api/'
 URL_FILE = 'http://194.58.92.160:8001'
 cheque_root = '/root/dev/SkillPay-Django'
@@ -70,7 +70,7 @@ async def get_trade(client, message, state: State):
     print(trade_split)
     id = trade_split[1].split()[1]
     await state.set_data({'id': id})
-
+    print(message.id)
     trade_info = {
         'id': id,
         'card_number': trade_split[2].split()[1],
@@ -109,6 +109,7 @@ async def send_cancel_message(client, message, state: State):
 @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cardNumber) & filters.regex('\w+\d{8}\w+'))
 async def get_card_number(client, message, state: State):
     print('card_number', message.text)
+    print(message.id)
     card_number = message.text
     state_data = await state.get_data()
     kftrade_id = state_data['id']
@@ -122,28 +123,6 @@ async def get_card_number(client, message, state: State):
     a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
     if a.status_code == 200:
         await state.set_state(Actions.editCheck)
-
-
-async def send_check(kftrade_id):
-    start_time = time.time()
-    while 1:
-        await asyncio.sleep(0)
-        req_status = requests.get(URL_DJANGO + f'kf/trade/detail/{kftrade_id}/')
-        if req_status.status_code == 200:
-            kftrade = req_status.json()
-            if kftrade['kftrade']['cheque']:
-                return kftrade['kftrade']['cheque']
-            elif kftrade['kftrade']['status'] == 'time_cancel':
-                return False
-            else:
-                continue
-
-
-@app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.editCheck) & filters.regex('\w+дание подтверж\w+'))
-async def send_cheque(client, message, state: State):
-    print('editcheck', message.text)
-    state_data = await state.get_data()
-    kftrade_id = state_data['id']
     kftrade_cheque_file = await send_check(kftrade_id=kftrade_id)
     if kftrade_cheque_file:
         r = requests.get(URL_FILE + kftrade_cheque_file)
@@ -165,10 +144,35 @@ async def send_cheque(client, message, state: State):
         a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
         if a.status_code == 200:
             try:
-                await message.click(0, timeout=0)
+                try:
+                    msg = await app.get_messages(chat_id=name_bot, message_ids=message.id + 3)
+                    await client.request_callback_answer(
+                        chat_id=name_bot,
+                        message_id=message.id + 3,
+                        callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data,
+                    )
+                except TimeoutError:
+                    await asyncio.sleep(1)
             except TimeoutError:
                 print('тык отмена')
             await state.set_state(Actions.cancelTrade)
+
+
+
+async def send_check(kftrade_id):
+    start_time = time.time()
+    while 1:
+        await asyncio.sleep(0)
+        req_status = requests.get(URL_DJANGO + f'kf/trade/detail/{kftrade_id}/')
+        if req_status.status_code == 200:
+            kftrade = req_status.json()
+            if kftrade['kftrade']['cheque']:
+                return kftrade['kftrade']['cheque']
+            elif kftrade['kftrade']['status'] == 'time_cancel':
+                return False
+            else:
+                continue
+
 
 
 @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.acceptCheck) & filters.regex('Это докумен\w+'))

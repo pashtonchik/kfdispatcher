@@ -1,4 +1,4 @@
-#!/home/ivan/Desktop/ProgrammingProjects/kfdispatcher/venv/bin/python3
+#!/home/ivan/Desktop/ProgrammingProjects/SkillPay/kfdispatcher/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
