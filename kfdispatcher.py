@@ -107,6 +107,7 @@ async def get_trade(client, message, state: State):
 
 @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cancelTrade))
 async def send_cancel_message(client, message, state: State):
+    await asyncio.sleep(3)
     await client.send_message(name_bot, 'Прошу повторить через 5 минут')
     await state.finish()
 
@@ -167,7 +168,7 @@ async def get_card_number(client, message, state: State):
 async def send_check(kftrade_id):
     start_time = time.time()
     while 1:
-        await asyncio.sleep(0)
+        await asyncio.sleep(5)
         req_status = requests.get(URL_DJANGO + f'kf/trade/detail/{kftrade_id}/')
         if req_status.status_code == 200:
             kftrade = req_status.json()
