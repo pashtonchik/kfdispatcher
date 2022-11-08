@@ -76,7 +76,7 @@ async def get_trade(client, message, state: State):
     account = await app.get_users('me')
     
     trade_info = {
-        'tg_account' : account.username,
+        'tg_account' : account.first_name,
         'id': id,
         'card_number': trade_split[2].split()[1],
         'source': trade_split[0].split()[1],
