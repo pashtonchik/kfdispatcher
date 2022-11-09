@@ -15,7 +15,7 @@ name_bot = 'KFOperatingBot'
 URL_DJANGO = 'http://194.58.92.160:8001/api/'
 URL_FILE = 'http://194.58.92.160:8001'
 cheque_root = '/root/dev/SkillPay-Django'
-skill_pay_bot = ''
+skill_pay_bot = 'KFStatusBot'
 
 class Actions(StatesGroup):
     newTrade = StateItem()
@@ -56,7 +56,7 @@ async def change_status(client, message):
         await client.request_callback_answer(
             chat_id='KFOperatingBot',
             message_id=message.id,
-            callback_data=message.reply_markup.inline_keyboard[0][0].callback_data,
+            callback_data='',
         )
     except TimeoutError:
         await asyncio.sleep(1)
@@ -121,27 +121,9 @@ async def change_status(client, message):
                 await asyncio.sleep(1)
 
 
-@app.on_message(filters=filters.user(name_bot) & filters.regex('Смена статус\w+'))
-async def click_tinkoff(client, message):
-#    if message.reply_markup.inline_keyboard[2][0].callback_data == 'p2p_private_status_edittool_SBERBANK_enable':
-#        try:
-#            await client.request_callback_answer(
-#                chat_id=name_bot,
-#                message_id=message.id,
-#                callback_data=message.reply_markup.inline_keyboard[2][0].callback_data,
-#            )
-#        except TimeoutError:
-#            await asyncio.sleep(1)
-    print(message.reply_markup)
-    if message.reply_markup.inline_keyboard[3][0].callback_data == 'p2p_private_status_edittool_TINKOFF_enable':
-        try:
-            await client.request_callback_answer(
-                chat_id=name_bot,
-                message_id=message.id,
-                callback_data=message.reply_markup.inline_keyboard[3][0].callback_data,
-            )
-        except TimeoutError:
-            await asyncio.sleep(1)
+@app.on_message(filters=filters.user(name_bot))
+async def print_mes(client, message):
+    print(message)
 
 
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Источн\w+') & StateFilter('*'))
