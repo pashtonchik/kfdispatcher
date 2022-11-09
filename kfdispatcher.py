@@ -43,9 +43,11 @@ async def change_status(client, message):
     await client.send_message(name_bot, '/start')
     await asyncio.sleep(3)
 
+
+
     await client.send_message(
         chat_id='KFOperatingBot',
-        text=message.reply_markup.keyboard[0][1],
+        text='🏆 Статусы',
     )
     
     await asyncio.sleep(1)
