@@ -12,7 +12,7 @@ import json
 
 
 name_bot = 'KFOperatingBot'
-URL_DJANGO = 'http://194.58.92.160:8001/api/'
+URL_DJANGO = 'http://194.58.92.160:8000/api/'
 URL_FILE = 'http://194.58.92.160:8001'
 cheque_root = '/root/dev/SkillPay-Django'
 skill_pay_bot = 'KFStatusBot'
@@ -41,7 +41,7 @@ if __name__ == '__main__':
 @app.on_message(filters=filters.user(skill_pay_bot))
 async def change_status(client, message):
     await client.send_message(name_bot, '/start')
-    await asyncio.sleep(3)
+    await asyncio.sleep(1)
 
 
 
@@ -49,8 +49,12 @@ async def change_status(client, message):
         chat_id='KFOperatingBot',
         text='🏆 Статусы',
     )
+
     
-    await asyncio.sleep(1)
+
+@app.on_message(filters=filters.user(name_bot) & filters.regex('Общи\w+'))
+async def general_status_menu(client, message):
+    
 
     try:
         await client.request_callback_answer(
@@ -60,9 +64,21 @@ async def change_status(client, message):
         )
     except TimeoutError:
         await asyncio.sleep(1)
-    
-    msg = json.loads(message.text)
 
+@app.on_message(filters=filters.user(name_bot) & filters.regex('Смена статус\w+'))
+async def change_status(client, message):
+
+    my_id = await app.get_me()
+    status = {}
+    try:
+        data = requests.get(URL_DJANGO + 'get/user_bots/').json()
+        for i in data:
+            if (i['tg_id'] == str(my_id.id)):
+                status = i['status'] 
+    except:
+        pass
+    
+    msg = status
     if message.reply_markup.inline_keyboard[2][0].callback_data == 'p2p_private_status_edittool_SBERBANK_enable' and msg.get('sberbank_status') == True:
         try:
             await client.request_callback_answer(
@@ -121,20 +137,13 @@ async def change_status(client, message):
                 await asyncio.sleep(1)
 
 
-@app.on_message(filters=filters.user(name_bot))
-async def print_mes(client, message):
-    print(message)
-
-
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Источн\w+') & StateFilter('*'))
 async def get_trade(client, message, state: State):
     await state.set_state(Actions.newTrade)
     trade = message.text
     trade_split = trade.split('\n')
-    print(trade_split)
     id = trade_split[1].split()[1]
     await state.set_data({'id': id})
-    print(message.id)
     account = await app.get_users('me')
     
     trade_info = {
