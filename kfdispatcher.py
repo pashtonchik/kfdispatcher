@@ -56,7 +56,7 @@ async def change_status(client, message):
         await client.request_callback_answer(
             chat_id='KFOperatingBot',
             message_id=message.id,
-            callback_data='',
+            callback_data='p2p_private_status_edit',
         )
     except TimeoutError:
         await asyncio.sleep(1)
