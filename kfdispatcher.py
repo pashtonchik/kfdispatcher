@@ -8,12 +8,14 @@ from pyrogram_patch.fsm.storages import MemoryStorage
 import sys
 import os
 import uvloop
+import json
+
 
 name_bot = 'KFOperatingBot'
 URL_DJANGO = 'http://194.58.92.160:8001/api/'
 URL_FILE = 'http://194.58.92.160:8001'
 cheque_root = '/root/dev/SkillPay-Django'
-
+skill_pay_bot = ''
 
 class Actions(StatesGroup):
     newTrade = StateItem()
@@ -30,16 +32,91 @@ class Actions(StatesGroup):
 uvloop.install()
 
 if __name__ == '__main__':
-
-    # api_id = 24124872
-    # api_hash = 'd368ec365944a3198966e6ae46203edc'
-
     api_id  = int(sys.argv[1])
     api_hash = sys.argv[2] 
     app = Client(f'session/{api_id}', api_id, api_hash)
     patch_manager = patch(app)
     patch_manager.set_storage(MemoryStorage())
 
+@app.on_message(filters=filters.user(skill_pay_bot))
+async def change_status(client, message):
+    await client.send_message(name_bot, '/start')
+    await asyncio.sleep(3)
+
+    await client.send_message(
+        chat_id='KFOperatingBot',
+        text=message.reply_markup.keyboard[0][1],
+    )
+    
+    await asyncio.sleep(1)
+
+    try:
+        await client.request_callback_answer(
+            chat_id='KFOperatingBot',
+            message_id=message.id,
+            callback_data=message.reply_markup.inline_keyboard[0][0].callback_data,
+        )
+    except TimeoutError:
+        await asyncio.sleep(1)
+    
+    msg = json.loads(message.text)
+
+    if message.reply_markup.inline_keyboard[2][0].callback_data == 'p2p_private_status_edittool_SBERBANK_enable' and msg.get('sberbank_status') == True:
+        try:
+            await client.request_callback_answer(
+                chat_id=name_bot,
+                message_id=message.id,
+                callback_data=message.reply_markup.inline_keyboard[2][0].callback_data,
+            )
+        except TimeoutError:
+            await asyncio.sleep(1)
+    elif message.reply_markup.inline_keyboard[2][0].callback_data == 'p2p_private_status_edittool_SBERBANK_disable' and msg.get('sberbank_status') == False:
+        try:
+            await client.request_callback_answer(
+                chat_id=name_bot,
+                message_id=message.id,
+                callback_data=message.reply_markup.inline_keyboard[2][0].callback_data,
+            )
+        except TimeoutError:
+            await asyncio.sleep(1)
+    if message.reply_markup.inline_keyboard[3][0].callback_data == 'p2p_private_status_edittool_TINKOFF_enable' and msg.get('tinkoff_status') == True:
+        try:
+            await client.request_callback_answer(
+                chat_id=name_bot,
+                message_id=message.id,
+                callback_data=message.reply_markup.inline_keyboard[3][0].callback_data,
+            )
+        except TimeoutError:
+                await asyncio.sleep(1)
+    elif message.reply_markup.inline_keyboard[3][0].callback_data == 'p2p_private_status_edittool_TINKOFF_disable' and msg.get('tinkoff_status') == False:
+        try:
+            await client.request_callback_answer(
+                chat_id=name_bot,
+                message_id=message.id,
+                callback_data=message.reply_markup.inline_keyboard[3][0].callback_data,
+            )
+        except TimeoutError:
+                await asyncio.sleep(1)
+
+    if message.reply_markup.inline_keyboard[0][0].callback_data == 'p2p_private_status_editbase_enable' and msg.get('main_status') == True:
+        try:
+            await client.request_callback_answer(
+                chat_id=name_bot,
+                message_id=message.id,
+                callback_data=message.reply_markup.inline_keyboard[0][0].callback_data,
+            )
+        except TimeoutError:
+                await asyncio.sleep(1)
+
+    elif message.reply_markup.inline_keyboard[0][0].callback_data == 'p2p_private_status_editbase_disable' and msg.get('main_status') == False:
+        try:
+            await client.request_callback_answer(
+                chat_id=name_bot,
+                message_id=message.id,
+                callback_data=message.reply_markup.inline_keyboard[0][0].callback_data,
+            )
+        except TimeoutError:
+                await asyncio.sleep(1)
 
 
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Смена статус\w+'))
@@ -53,6 +130,7 @@ async def click_tinkoff(client, message):
 #            )
 #        except TimeoutError:
 #            await asyncio.sleep(1)
+    print(message.reply_markup)
     if message.reply_markup.inline_keyboard[3][0].callback_data == 'p2p_private_status_edittool_TINKOFF_enable':
         try:
             await client.request_callback_answer(

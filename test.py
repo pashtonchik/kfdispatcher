@@ -1,7 +1,8 @@
-import requests
+import json
 
+a = '{"a" : "b", "c" : "d"}'
+employee_string = '{"first_name": "Michael", "last_name": "Rodgers", "department": "Marketing"}'
 
-r =requests.get('http://194.58.92.160:8001/kf_checks/kf_checks/kf96792_1893883161.pdf')
+b = json.loads(a)
 
-with open('12234.pdf', 'wb') as f:
-    f.write(r.content)
+print(b.get('lebra'))
