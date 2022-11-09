@@ -12,7 +12,7 @@ import json
 
 
 name_bot = 'KFOperatingBot'
-URL_DJANGO = 'http://194.58.92.160:8000/api/'
+URL_DJANGO = 'http://194.58.92.160:8001/api/'
 URL_FILE = 'http://194.58.92.160:8001'
 cheque_root = '/root/dev/SkillPay-Django'
 skill_pay_bot = 'KFStatusBot'
