@@ -1,8 +1,10 @@
-import json
+a = 200
 
-a = '{"a" : "b", "c" : "d"}'
-employee_string = '{"first_name": "Michael", "last_name": "Rodgers", "department": "Marketing"}'
-
-b = json.loads(a)
-
-print(b.get('lebra'))
+while True:
+    a -= 1
+    try:
+        if not a:
+            print(a)
+            break
+    except:
+        print(10000)
