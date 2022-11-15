@@ -70,29 +70,31 @@ async def check_message(msg_id, client, id):
         try:
             req_status = requests.get(URL_DJANGO + f'kf/trade/detail/{id}/')
             kftrade = req_status.json()
-            if kftrade['kftrade']['status'] in ['closed', 'time_cancel', 'confirm_payment'] or :
+            if kftrade['kftrade']['status'] in ['closed', 'time_cancel', 'confirm_payment'] or kftrade['kftrade']['cheque']:
                 break
-        except:
+            if ('ОПЛАЧЕН' in msg.text or 'Отменен' in msg.text):
+                if 'ОПЛАЧЕН' in msg.text:
+                    status = 'confirm_payment'
+                elif 'Отменен' in msg.text:
+                    status = 'closed'
+                if status:
+                    try:
+                        trade_info = {
+                            'id': id,
+                            'status': status,
+                        }
+
+                        a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
+                        if (a.status_code == 200):
+                            break
+
+                    except Exception:
+                        print(Exception)
+                        continue
+        except Exception:
+            print(Exception)
             continue
-        if ('ОПЛАЧЕН' in msg.text or 'Отменен' in msg.text):
-            if 'ОПЛАЧЕН' in msg.text:
-                status = 'confirm_payment'
-            elif 'Отменен' in msg.text:
-                status = 'closed'
-            if status:
-                try:
-                    trade_info = {
-                        'id': id,
-                        'status': status,
-                    }
-
-                    a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
-                    if (a.status_code == 200):
-                        break
-
-                except Exception:
-                    print(Exception)
-                    continue
+        
         await asyncio.sleep(5)
 
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Смена статус\w+'))
