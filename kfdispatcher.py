@@ -54,8 +54,6 @@ async def change_status(client, message):
 
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Общи\w+'))
 async def general_status_menu(client, message):
-    
-
     try:
         await client.request_callback_answer(
             chat_id='KFOperatingBot',
@@ -64,6 +62,29 @@ async def general_status_menu(client, message):
         )
     except TimeoutError:
         await asyncio.sleep(1)
+
+async def check_message(msg_id, client, id):
+    while 1:
+        msg = await app.get_messages(chat_id=name_bot, message_ids=msg_id)
+        if 'ОПЛАЧЕН' in msg.text or 'Отменен' in msg.text:
+            if 'ОПЛАЧЕН' in msg.text:
+                status = 'confirm_payment'
+            elif 'Отменен' in msg.text:
+                status = 'closed'
+            try:
+                trade_info = {
+                    'id': id,
+                    'status': status,
+                }
+
+                a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
+                if (a.status_code == 200):
+                    break
+
+            except Exception:
+                continue
+                print(Exception)
+        await asyncio.sleep(5)
 
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Смена статус\w+'))
 async def change_status(client, message):
@@ -140,6 +161,8 @@ async def change_status(client, message):
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Источн\w+') & StateFilter('*'))
 async def get_trade(client, message, state: State):
     await state.set_state(Actions.newTrade)
+    asyncio.get_event_loop()
+    print(message.id)
     trade = message.text
     trade_split = trade.split('\n')
     id = trade_split[1].split()[1]
@@ -174,6 +197,8 @@ async def get_trade(client, message, state: State):
     if a.status_code == 200:
         print(a.status_code, 'card is')
         await state.set_state(Actions.cardNumber)
+        asyncio.create_task(check_message(message.id, client, id))
+
 
 
 @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cancelTrade))
@@ -185,8 +210,6 @@ async def send_cancel_message(client, message, state: State):
 
 @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cardNumber) & filters.regex('\w+\d{8}\w+'))
 async def get_card_number(client, message, state: State):
-    print('card_number', message.text)
-    print(message.id)
     card_number = message.text
     state_data = await state.get_data()
     kftrade_id = state_data['id']
@@ -201,7 +224,7 @@ async def get_card_number(client, message, state: State):
     if a.status_code == 200:
         await state.set_state(Actions.editCheck)
     kftrade_cheque_file = await send_check(kftrade_id=kftrade_id)
-    if kftrade_cheque_file:
+    if kftrade_cheque_file not in ['closed', 'time_cancel', 'confirm_payment'] :
         r = requests.get(URL_FILE + kftrade_cheque_file)
 
         with open(f'checks/{kftrade_id}.pdf', 'wb') as f:
@@ -213,7 +236,7 @@ async def get_card_number(client, message, state: State):
             pass
         await state.set_state(Actions.acceptCheck)
         print('чек типо отправляем')
-    else:
+    elif kftrade_cheque_file == 'time_cancel':
         trade_info = {
             'id': kftrade_id,
             'status': 'closed',
@@ -233,7 +256,8 @@ async def get_card_number(client, message, state: State):
             except TimeoutError:
                 print('тык отмена')
             await state.set_state(Actions.cancelTrade)
-
+    else:
+        await state.finish()
 
 
 async def send_check(kftrade_id):
@@ -246,7 +270,11 @@ async def send_check(kftrade_id):
             if kftrade['kftrade']['cheque']:
                 return kftrade['kftrade']['cheque']
             elif kftrade['kftrade']['status'] == 'time_cancel':
-                return False
+                return 'time_cancel'
+            elif kftrade['kftrade']['status'] == 'closed':
+                return 'closed'
+            elif kftrade['kftrade']['status'] == 'confirm_payment':
+                return 'confirm_payment'
             else:
                 continue
 
