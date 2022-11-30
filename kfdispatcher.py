@@ -173,13 +173,13 @@ async def change_status(client, message):
 async def get_trade(client, message, state: State):
     await state.set_state(Actions.newTrade)
     asyncio.get_event_loop()
-    print(message.id)
     trade = message.text
     trade_split = trade.split('\n')
     id = trade_split[1].split()[1]
-    await state.set_data({'id': id})
     account = await app.get_users('me')
-    
+    id = account.first_name + '-' + id
+    await state.set_data({'id': id})
+
     trade_info = {
         'tg_account' : account.first_name,
         'id': id,
@@ -214,10 +214,19 @@ async def get_trade(client, message, state: State):
 
 @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cancelTrade))
 async def send_cancel_message(client, message, state: State):
-    await asyncio.sleep(3)
-    await client.send_message(name_bot, 'Прошу повторить через 5 минут')
-    await state.finish()
-
+    state_data = await state.get_data()
+    id = state_data['id']
+    req_status = requests.get(URL_DJANGO + f'kf/trade/detail/{id}/')
+    comment = req_status.json()['kftrade']['cancel_comment']
+    if (not comment):
+        await asyncio.sleep(3)
+        await client.send_message(name_bot, 'Прошу повторить через 5 минут')
+        await state.finish()
+    else:
+        await asyncio.sleep(3)
+        await client.send_message(name_bot, comment)
+        await state.finish()
+        
 
 @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cardNumber) & filters.regex('\w+\d{8}\w+'))
 async def get_card_number(client, message, state: State):
@@ -266,6 +275,7 @@ async def get_card_number(client, message, state: State):
                     await asyncio.sleep(1)
             except TimeoutError:
                 print('тык отмена')
+            await state.set_data({'id': kftrade_id})
             await state.set_state(Actions.cancelTrade)
     else:
         await state.finish()
