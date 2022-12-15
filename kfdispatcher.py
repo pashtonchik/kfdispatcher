@@ -261,54 +261,54 @@ async def get_trade(client, message, state: State):
             await state.set_state(Actions.acceptCheck)
             print('чек типо отправляем')
         elif kftrade_cheque_file == 'time_cancel':
-            if a.status_code == 200:
+            try:
                 try:
-                    try:
-                        msg = await app.get_messages(chat_id=name_bot, message_ids=message.id + 5)
-                        await client.request_callback_answer(
-                            chat_id=name_bot,
-                            message_id=message.id + 5,
-                            callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data,
-                        )
-                    except TimeoutError:
-                        await asyncio.sleep(1)
+                    msg = await app.get_messages(chat_id=name_bot, message_ids=message.id + 5)
+                    await client.request_callback_answer(
+                        chat_id=name_bot,
+                        message_id=message.id + 5,
+                        callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data,
+                    )
                 except TimeoutError:
-                    print('тык отмена')
-                await asyncio.sleep(5)
-                try:
-                    state_data = await state.get_data()
-                    id = state_data['id']
-                    req_status = requests.get(URL_DJANGO + f'kf/trade/detail/{id}/')
-                    comment = req_status.json()['kftrade']['cancel_comment']
-                    if (not comment):
-                        await asyncio.sleep(3)
-                        await client.send_message(name_bot, 'Прошу повторить через 5 минут')
-                        await state.finish()
-                    else:
-                        await asyncio.sleep(3)
-                        await client.send_message(name_bot, comment)
-                        await state.finish()
-                    trade_info = {
-                        'id': id,
-                        'status': 'closed',
-                    }
-                    a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
-                    if a.status_code == 200:
-                        print(f'Сделка {id} успешно закрыта.')
-                    else:
-                        data = {
-                            "chat_id" : "-1001839190420",
-                            "text" : f"[ERROR] Сделка {id} не закрылась из-за проблем на сервере"
-                        }
-                        error = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage")
-                except Exception as e:
-                    print(e)
-                    data = {
-                            "chat_id" : "-1001839190420",
-                            "text" : f"[ERROR] Сделка {id} не закрылась из-за какой-то ошибки"
-                        }
-                    error = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage")
+                    await asyncio.sleep(1)
+            except TimeoutError:
+                print('тык отмена')
+            await asyncio.sleep(5)
+            try:
+                state_data = await state.get_data()
+                id = state_data['id']
+                req_status = requests.get(URL_DJANGO + f'kf/trade/detail/{id}/')
+                comment = req_status.json()['kftrade']['cancel_comment']
+                if (not comment):
+                    await asyncio.sleep(3)
+                    await client.send_message(name_bot, 'Прошу повторить через 5 минут')
                     await state.finish()
+                else:
+                    await asyncio.sleep(3)
+                    await client.send_message(name_bot, comment)
+                    await state.finish()
+                trade_info = {
+                    'id': id,
+                    'status': 'closed',
+                }
+                a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
+                if a.status_code == 200:
+                    print(f'Сделка {id} успешно закрыта.')
+                else:
+                    data = {
+                        "chat_id" : "-1001839190420",
+                        "text" : f"[ERROR] Сделка {id} не закрылась из-за проблем на сервере"
+                    }
+                    error = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage")
+            except Exception as e:
+                print(e)
+                data = {
+                        "chat_id" : "-1001839190420",
+                        "text" : f"[ERROR] Сделка {id} не закрылась из-за какой-то ошибки"
+                    }
+                error = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage")
+            finally:
+                await state.finish()
         else:
             await state.finish()
     else:
