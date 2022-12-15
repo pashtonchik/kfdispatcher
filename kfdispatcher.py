@@ -40,7 +40,7 @@ if __name__ == '__main__':
 
 @app.on_message(filters=filters.user(skill_pay_bot))
 async def change_status(client, message):
-    await client.send_message(name_bot, '/start')
+    # await client.send_message(name_bot, '/start')
     await asyncio.sleep(1)
 
 
@@ -49,6 +49,7 @@ async def change_status(client, message):
         chat_id='KFOperatingBot',
         text='🏆 Статусы',
     )
+
 
     
 
@@ -99,7 +100,7 @@ async def check_message(msg_id, client, id):
 
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Смена статус\w+'))
 async def change_status(client, message):
-
+    await asyncio.sleep(2)
     my_id = await app.get_me()
     status = {}
     try:
@@ -129,7 +130,7 @@ async def change_status(client, message):
             )
         except TimeoutError:
             await asyncio.sleep(1)
-    if message.reply_markup.inline_keyboard[3][0].callback_data == 'p2p_private_status_edittool_TINKOFF_enable' and msg.get('tinkoff_status') == True:
+    elif message.reply_markup.inline_keyboard[3][0].callback_data == 'p2p_private_status_edittool_TINKOFF_enable' and msg.get('tinkoff_status') == True:
         try:
             await client.request_callback_answer(
                 chat_id=name_bot,
@@ -148,7 +149,7 @@ async def change_status(client, message):
         except TimeoutError:
                 await asyncio.sleep(1)
 
-    if message.reply_markup.inline_keyboard[0][0].callback_data == 'p2p_private_status_editbase_enable' and msg.get('main_status') == True:
+    elif message.reply_markup.inline_keyboard[0][0].callback_data == 'p2p_private_status_editbase_enable' and msg.get('main_status') == True:
         try:
             await client.request_callback_answer(
                 chat_id=name_bot,
@@ -167,7 +168,15 @@ async def change_status(client, message):
             )
         except TimeoutError:
                 await asyncio.sleep(1)
-
+    else:
+        try:
+            await client.request_callback_answer(
+                chat_id=name_bot,
+                message_id=message.id,
+                callback_data=message.reply_markup.inline_keyboard[4][0].callback_data,
+            )
+        except TimeoutError:
+                await asyncio.sleep(1)
 
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Источн\w+') & StateFilter('*'))
 async def get_trade(client, message, state: State):
@@ -197,7 +206,8 @@ async def get_trade(client, message, state: State):
     try:
         await message.click(0, 0, timeout=0)
     except TimeoutError:
-        print('тык принять')
+        pass
+        # print('тык принять')
 
     trade_info = {
         'id': id,
@@ -205,80 +215,116 @@ async def get_trade(client, message, state: State):
     }
 
     a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
+    print(f'Сделка {id} успешно добавлена в БД')
     if a.status_code == 200:
         print(a.status_code, 'card is')
-        await state.set_state(Actions.cardNumber)
+        # await state.set_state(Actions.cardNumber)
         asyncio.create_task(check_message(message.id, client, id))
 
+        await asyncio.sleep(5)
+
+        msg = await app.get_messages(chat_id=name_bot, message_ids=message.id + 2)
 
 
-@app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cancelTrade))
-async def send_cancel_message(client, message, state: State):
-    state_data = await state.get_data()
-    id = state_data['id']
-    req_status = requests.get(URL_DJANGO + f'kf/trade/detail/{id}/')
-    comment = req_status.json()['kftrade']['cancel_comment']
-    if (not comment):
-        await asyncio.sleep(3)
-        await client.send_message(name_bot, 'Прошу повторить через 5 минут')
-        await state.finish()
-    else:
-        await asyncio.sleep(3)
-        await client.send_message(name_bot, comment)
-        await state.finish()
-        
+        card_number = msg.text
+        # state_data = await state.get_data()
+        kftrade_id = id
 
-@app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cardNumber) & filters.regex('\w+\d{8}\w+'))
-async def get_card_number(client, message, state: State):
-    card_number = message.text
-    state_data = await state.get_data()
-    kftrade_id = state_data['id']
-
-    trade_info = {
-        'id': kftrade_id,
-        'card_number': card_number,
-        'status': 'trade_created',
-    }
-
-    a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
-    if a.status_code == 200:
-        await state.set_state(Actions.editCheck)
-    kftrade_cheque_file = await send_check(kftrade_id=kftrade_id)
-    if kftrade_cheque_file not in ['closed', 'time_cancel', 'confirm_payment'] :
-        r = requests.get(URL_FILE + kftrade_cheque_file)
-
-        with open(f'checks/{kftrade_id}.pdf', 'wb') as f:
-            f.write(r.content)
-        await client.send_document(name_bot,  f'checks/{kftrade_id}.pdf')
-        try:
-            os.remove(f'checks/{kftrade_id}.pdf')
-        except: 
-            pass
-        await state.set_state(Actions.acceptCheck)
-        print('чек типо отправляем')
-    elif kftrade_cheque_file == 'time_cancel':
         trade_info = {
             'id': kftrade_id,
-            'status': 'closed',
+            'card_number': card_number,
+            'status': 'trade_created',
         }
+
         a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
         if a.status_code == 200:
+            await state.set_state(Actions.editCheck)
+            print(f"Карта добавлена в базу")
+        else:
+            data = {
+            "chat_id" : "-1001839190420",
+            "text" : f"[ERROR] Сделка {id} номер карты не добавлен в базу из-за проблем на сервере"
+            }
+            error = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage")
+  
+        kftrade_cheque_file = await send_check(kftrade_id=kftrade_id)
+        if kftrade_cheque_file not in ['closed', 'time_cancel', 'confirm_payment'] :
+            r = requests.get(URL_FILE + kftrade_cheque_file)
+
+            with open(f'checks/{kftrade_id}.pdf', 'wb') as f:
+                f.write(r.content)
+            await client.send_document(name_bot,  f'checks/{kftrade_id}.pdf')
             try:
+                os.remove(f'checks/{kftrade_id}.pdf')
+            except: 
+                pass
+            await state.set_state(Actions.acceptCheck)
+            print('чек типо отправляем')
+        elif kftrade_cheque_file == 'time_cancel':
+            if a.status_code == 200:
                 try:
-                    msg = await app.get_messages(chat_id=name_bot, message_ids=message.id + 3)
-                    await client.request_callback_answer(
-                        chat_id=name_bot,
-                        message_id=message.id + 3,
-                        callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data,
-                    )
+                    try:
+                        msg = await app.get_messages(chat_id=name_bot, message_ids=message.id + 5)
+                        await client.request_callback_answer(
+                            chat_id=name_bot,
+                            message_id=message.id + 5,
+                            callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data,
+                        )
+                    except TimeoutError:
+                        await asyncio.sleep(1)
                 except TimeoutError:
-                    await asyncio.sleep(1)
-            except TimeoutError:
-                print('тык отмена')
-            await state.set_data({'id': kftrade_id})
-            await state.set_state(Actions.cancelTrade)
+                    print('тык отмена')
+                await asyncio.sleep(5)
+                try:
+                    state_data = await state.get_data()
+                    id = state_data['id']
+                    req_status = requests.get(URL_DJANGO + f'kf/trade/detail/{id}/')
+                    comment = req_status.json()['kftrade']['cancel_comment']
+                    if (not comment):
+                        await asyncio.sleep(3)
+                        await client.send_message(name_bot, 'Прошу повторить через 5 минут')
+                        await state.finish()
+                    else:
+                        await asyncio.sleep(3)
+                        await client.send_message(name_bot, comment)
+                        await state.finish()
+                    trade_info = {
+                        'id': id,
+                        'status': 'closed',
+                    }
+                    a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
+                    if a.status_code == 200:
+                        print(f'Сделка {id} успешно закрыта.')
+                    else:
+                        data = {
+                            "chat_id" : "-1001839190420",
+                            "text" : f"[ERROR] Сделка {id} не закрылась из-за проблем на сервере"
+                        }
+                        error = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage")
+                except Exception as e:
+                    print(e)
+                    data = {
+                            "chat_id" : "-1001839190420",
+                            "text" : f"[ERROR] Сделка {id} не закрылась из-за какой-то ошибки"
+                        }
+                    error = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage")
+                    await state.finish()
+        else:
+            await state.finish()
     else:
-        await state.finish()
+        data = {
+            "chat_id" : "-1001839190420",
+            "text" : f"[ERROR] Сделка {id} не добавлена в базу из-за проблем на сервере"
+        }
+        error = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage")
+
+
+
+# @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cancelTrade))
+# async def send_cancel_message(client, message, state: State):
+# @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cardNumber) & filters.regex('\w+\d{8}\w+'))
+# async def get_card_number(client, message, state: State):
+
 
 
 async def send_check(kftrade_id):
