@@ -199,7 +199,7 @@ async def get_trade(client, message, state: State):
         'amount': int(trade_split[5].split()[1]),
         'comment': trade_split[7],
         'type': trade_split[4].split()[1][0:4],
-        'status': 'trade_created',
+        'status': 'in_progress',
     }
 
     a = requests.post(URL_DJANGO + 'create/kf/trade/', json=trade_info)
@@ -209,12 +209,13 @@ async def get_trade(client, message, state: State):
         pass
         # print('тык принять')
 
-    trade_info = {
-        'id': id,
-        'status': 'in_progress',
-    }
+    # trade_info = {
+    #     'id': id,
+    #     'status': 'in_progress',
+    # }
 
-    a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
+    # a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
+    
     print(f'Сделка {id} успешно добавлена в БД')
     if a.status_code == 200:
         print(a.status_code, 'card is')
