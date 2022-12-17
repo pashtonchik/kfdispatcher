@@ -189,20 +189,6 @@ async def get_trade(client, message, state: State):
     id = account.first_name + '-' + id
     await state.set_data({'id': id})
 
-    trade_info = {
-        'tg_account' : account.first_name,
-        'id': id,
-        'card_number': trade_split[2].split()[1],
-        'source': trade_split[0].split()[1],
-        'paymethod': 443 if trade_split[4].split()[1] == 'TINKOFF' else 3547,
-        'fio': trade_split[6].split()[1],
-        'amount': int(trade_split[5].split()[1]),
-        'comment': trade_split[7],
-        'type': trade_split[4].split()[1][0:4],
-        'status': 'in_progress',
-    }
-
-    a = requests.post(URL_DJANGO + 'create/kf/trade/', json=trade_info)
     try:
         await message.click(0, 0, timeout=0)
     except TimeoutError:
@@ -216,37 +202,53 @@ async def get_trade(client, message, state: State):
 
     # a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
     
-    print(f'Сделка {id} успешно добавлена в БД')
+
+    # await state.set_state(Actions.cardNumber)
+
+    await asyncio.sleep(5)
+
+    msg = await app.get_messages(chat_id=name_bot, message_ids=message.id + 2)
+
+
+    card_number = msg.text
+    print(f'Получен номер карты: {card_number}')
+
+    trade_info = {
+        'tg_account' : account.first_name,
+        'id': id,
+        'card_number': card_number,
+        'source': trade_split[0].split()[1],
+        'paymethod': 443 if trade_split[4].split()[1] == 'TINKOFF' else 3547,
+        'fio': trade_split[6].split()[1],
+        'amount': int(trade_split[5].split()[1]),
+        'comment': trade_split[7],
+        'type': trade_split[4].split()[1][0:4],
+        'status': 'trade_created',
+    }
+
+    a = requests.post(URL_DJANGO + 'create/kf/trade/', json=trade_info)
     if a.status_code == 200:
-        print(a.status_code, 'card is')
-        # await state.set_state(Actions.cardNumber)
+        print(f'Сделка {id} успешно добавлена в БД')
         asyncio.create_task(check_message(message.id, client, id))
-
-        await asyncio.sleep(5)
-
-        msg = await app.get_messages(chat_id=name_bot, message_ids=message.id + 2)
-
-
-        card_number = msg.text
-        # state_data = await state.get_data()
+        state_data = await state.get_data()
         kftrade_id = id
 
-        trade_info = {
-            'id': kftrade_id,
-            'card_number': card_number,
-            'status': 'trade_created',
-        }
+        # trade_info = {
+        #     'id': kftrade_id,
+        #     'card_number': card_number,
+        #     'status': 'trade_created',
+        # }
 
-        a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
-        if a.status_code == 200:
-            await state.set_state(Actions.editCheck)
-            print(f"Карта добавлена в базу")
-        else:
-            data = {
-            "chat_id" : "-1001839190420",
-            "text" : f"[ERROR] Сделка {id} номер карты не добавлен в базу из-за проблем на сервере"
-            }
-            error = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage")
+        # a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
+        # if a.status_code == 200:
+        #     await state.set_state(Actions.editCheck)
+        #     print(f"Карта добавлена в базу")
+        # else:
+        #     data = {
+        #     "chat_id" : "-1001839190420",
+        #     "text" : f"[ERROR] Сделка {id} номер карты не добавлен в базу из-за проблем на сервере"
+        #     }
+        #     error = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage")
   
         kftrade_cheque_file = await send_check(kftrade_id=kftrade_id)
         if kftrade_cheque_file not in ['closed', 'time_cancel', 'confirm_payment'] :
