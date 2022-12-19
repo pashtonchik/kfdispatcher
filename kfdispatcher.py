@@ -51,10 +51,21 @@ async def change_status(client, message):
     )
 
 
-    
+
+
+
+@app.on_message(filters=filters.user(name_bot) & filters.regex('⚠️Заяв\w+'))
+async def notification(client, message):
+    data = {
+            "chat_id" : "-1001839190420",
+            "text" : message.text
+        }
+    notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage")
+
 
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Общи\w+'))
 async def general_status_menu(client, message):
+    await asyncio.sleep(1)
     try:
         await client.request_callback_answer(
             chat_id='KFOperatingBot',
@@ -188,7 +199,7 @@ async def get_trade(client, message, state: State):
     account = await app.get_users('me')
     id = account.first_name + '-' + id
     await state.set_data({'id': id})
-
+    await asyncio.sleep(1)
     try:
         await message.click(0, 0, timeout=0)
     except TimeoutError:
