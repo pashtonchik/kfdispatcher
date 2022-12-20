@@ -54,7 +54,7 @@ async def change_status(client, message):
 
 
 
-@app.on_message(filters=filters.user(name_bot) & filters.regex('\w+Заяв\w+'))
+@app.on_message(filters=filters.user(name_bot) & filters.regex('Заявка долго'))
 async def notification(client, message):
     data = {
             "chat_id" : "-1001839190420",
