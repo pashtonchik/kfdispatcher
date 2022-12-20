@@ -52,8 +52,9 @@ async def change_status(client, message):
 
 
 
-@app.on_message(filters=filters.user('f14b87acc6edeaf41') & filters.regex('Заявка долго') & StateFilter('*'))
-async def notification(client, message):
+@app.on_message(filters=filters.user(name_bot) & filters.regex('Заявка долго') & StateFilter('*'))
+async def notification(client, message, state: State):
+    print('ЗАЯВКА ДОЛГО В РАБОТЕ БЛЯТЬ')
     data = {
             "chat_id" : "-1001839190420",
             "text" : message.text
