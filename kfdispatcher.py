@@ -52,14 +52,14 @@ async def change_status(client, message):
 
 
 
-@app.on_message(filters=filters.user(name_bot) & filters.regex('Заявка долго') & StateFilter('*'))
+@app.on_message(filters=filters.user('f14b87acc6edeaf41') & filters.regex('Заявка долго') & StateFilter('*'))
 async def notification(client, message):
-    data = {
-            "chat_id" : "-1001839190420",
-            "text" : message.text
-        }
-    notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
-
+    # data = {
+    #         "chat_id" : "-1001839190420",
+    #         "text" : message.text
+    #     }
+    # notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
+    print('12123494394')
 
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Общи\w+'))
 async def general_status_menu(client, message):
@@ -103,9 +103,9 @@ async def check_message(msg_id, client, id):
                         continue
         except Exception:
             print(Exception)
+        finally:
+            await asyncio.sleep(5)
             continue
-        
-        await asyncio.sleep(5)
 
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Смена статус\w+'))
 async def change_status(client, message):
@@ -197,7 +197,7 @@ async def get_trade(client, message, state: State):
     account = await app.get_users('me')
     id = account.first_name + '-' + id
     await state.set_data({'id': id})
-    await asyncio.sleep(1)
+    await asyncio.sleep(2)
     try:
         await message.click(0, 0, timeout=0)
     except TimeoutError:
