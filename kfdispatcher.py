@@ -16,7 +16,6 @@ URL_DJANGO = 'http://194.58.92.160:8001/api/'
 URL_FILE = 'http://194.58.92.160:8001'
 cheque_root = '/root/dev/SkillPay-Django'
 skill_pay_bot = 'KFStatusBot'
-test_name = 'f14b87acc6edeaf41'
 
 class Actions(StatesGroup):
     newTrade = StateItem()
@@ -51,15 +50,6 @@ async def change_status(client, message):
         text='🏆 Статусы',
     )
 
-
-
-@app.on_message(filters=filters.user(test_name) & filters.regex('Заявка долго') & StateFilter('*'))
-async def notification(client, message):
-    data = {
-            "chat_id" : "-1001839190420",
-            "text" : message.text
-        }
-    notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
 
 
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Заявка долго') & StateFilter('*'))
