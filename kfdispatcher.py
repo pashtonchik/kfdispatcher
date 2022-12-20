@@ -54,12 +54,12 @@ async def change_status(client, message):
 
 @app.on_message(filters=filters.user('f14b87acc6edeaf41') & filters.regex('Заявка долго') & StateFilter('*'))
 async def notification(client, message):
-    # data = {
-    #         "chat_id" : "-1001839190420",
-    #         "text" : message.text
-    #     }
-    # notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
-    print('12123494394')
+    data = {
+            "chat_id" : "-1001839190420",
+            "text" : message.text
+        }
+    notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
+    # print('12123494394')
 
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Общи\w+'))
 async def general_status_menu(client, message):
