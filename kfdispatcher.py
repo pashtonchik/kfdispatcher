@@ -54,8 +54,8 @@ async def change_status(client, message):
 
 
 
-@app.on_message(filters=filters.user(name_bot) & filters.regex('Заявка долго') & StateFilter('*'))
-async def notification(client, message, state: State):
+@app.on_message(filters=filters.user(name_bot) & filters.regex('Заявка долго'))
+async def notification(client, message):
     print('ЗАЯВКА ДОЛГО В РАБОТЕ БЛЯТЬ')
     data = {
             "chat_id" : "-1001839190420",
@@ -225,7 +225,6 @@ async def get_trade(client, message, state: State):
         elif len(proof_card_number) >= 16 or len(proof_card_number) >= 10:
             card_number = msg.text 
             print(f"Карта: {card_number}")
-    # card_number = msg.text
 
     try:
         print(f'Получен номер карты: {card_number}')
