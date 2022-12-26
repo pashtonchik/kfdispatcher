@@ -9,7 +9,8 @@ import sys
 import os
 import uvloop
 import json
-
+import re
+import aiohttp
 
 name_bot = 'KFOperatingBot'
 URL_DJANGO = 'http://194.58.92.160:8001/api/'
@@ -34,6 +35,7 @@ uvloop.install()
 if __name__ == '__main__':
     api_id  = int(sys.argv[1])
     api_hash = sys.argv[2] 
+    account_name = sys.argv[3]
     app = Client(f'session/{api_id}', api_id, api_hash)
     patch_manager = patch(app)
     patch_manager.set_storage(MemoryStorage())
@@ -41,7 +43,7 @@ if __name__ == '__main__':
 @app.on_message(filters=filters.user(skill_pay_bot))
 async def change_status(client, message):
     # await client.send_message(name_bot, '/start')
-    await asyncio.sleep(1)
+    await asyncio.sleep(3)
 
 
 
@@ -64,7 +66,7 @@ async def notification(client, message, state: State):
 
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Общи\w+'))
 async def general_status_menu(client, message):
-    await asyncio.sleep(1)
+    await asyncio.sleep(3)
     try:
         await client.request_callback_answer(
             chat_id='KFOperatingBot',
@@ -72,7 +74,7 @@ async def general_status_menu(client, message):
             callback_data='p2p_private_status_edit',
         )
     except TimeoutError:
-        await asyncio.sleep(1)
+        await asyncio.sleep(3)
 
 async def check_message(msg_id, client, id):
     while 1:
@@ -192,39 +194,40 @@ async def change_status(client, message):
 async def get_trade(client, message, state: State):
     await state.set_state(Actions.newTrade)
     asyncio.get_event_loop()
+    
     trade = message.text
+    
     trade_split = trade.split('\n')
+
     id = trade_split[1].split()[1]
-    account = await app.get_users('me')
-    id = account.first_name + '-' + id
+    
+    id = account_name + '-' + id
+    
     await state.set_data({'id': id})
+    
     await asyncio.sleep(2)
+    
     try:
         await message.click(0, 0, timeout=0)
     except TimeoutError:
         pass
-        # print('тык принять')
-
-    # trade_info = {
-    #     'id': id,
-    #     'status': 'in_progress',
-    # }
-
-    # a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
     
-
-    # await state.set_state(Actions.cardNumber)
-
     await asyncio.sleep(5)
 
-    msg = await app.get_messages(chat_id=name_bot, message_ids=message.id + 2)
+    for i in range(1, 6):
+        card_number = re.sub('[^0-9]', '', msg.text)
+        msg = await app.get_messages(chat_id=name_bot, message_ids=message.id + i)
+        await asyncio.sleep(1)
+        if 'Ожидание' in msg.text:
+            cancel_btn_msg = msg
+        elif card_number >= 16 or card_number >= 10:
+            card_number = msg.text 
 
-
-    card_number = msg.text
+    # card_number = msg.text
     print(f'Получен номер карты: {card_number}')
 
     trade_info = {
-        'tg_account' : account.first_name,
+        'tg_account' : account_name,
         'id': id,
         'card_number': card_number,
         'source': trade_split[0].split()[1],
@@ -243,23 +246,6 @@ async def get_trade(client, message, state: State):
         state_data = await state.get_data()
         kftrade_id = id
 
-        # trade_info = {
-        #     'id': kftrade_id,
-        #     'card_number': card_number,
-        #     'status': 'trade_created',
-        # }
-
-        # a = requests.post(URL_DJANGO + 'update/kf/trade/', json=trade_info)
-        # if a.status_code == 200:
-        #     await state.set_state(Actions.editCheck)
-        #     print(f"Карта добавлена в базу")
-        # else:
-        #     data = {
-        #     "chat_id" : "-1001839190420",
-        #     "text" : f"[ERROR] Сделка {id} номер карты не добавлен в базу из-за проблем на сервере"
-        #     }
-        #     error = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage")
-  
         kftrade_cheque_file = await send_check(kftrade_id=kftrade_id)
         if kftrade_cheque_file not in ['closed', 'time_cancel', 'confirm_payment'] :
             r = requests.get(URL_FILE + kftrade_cheque_file)
@@ -276,11 +262,10 @@ async def get_trade(client, message, state: State):
         elif kftrade_cheque_file == 'time_cancel':
             try:
                 try:
-                    msg = await app.get_messages(chat_id=name_bot, message_ids=message.id + 5)
                     await client.request_callback_answer(
                         chat_id=name_bot,
-                        message_id=message.id + 5,
-                        callback_data=msg.reply_markup.inline_keyboard[0][0].callback_data,
+                        message_id=cancel_btn_msg.id,
+                        callback_data=cancel_btn_msg.reply_markup.inline_keyboard[0][0].callback_data,
                     )
                 except TimeoutError:
                     await asyncio.sleep(1)
@@ -362,6 +347,7 @@ async def send_check(kftrade_id):
 
 @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.acceptCheck) & filters.regex('Это докумен\w+'))
 async def accept_cheque(client, message, state: State):
+    await asyncio.sleep(3)
     try:
         await message.click(0, 0, timeout=0)
     except TimeoutError:
