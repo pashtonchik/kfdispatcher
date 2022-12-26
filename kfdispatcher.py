@@ -215,9 +215,9 @@ async def get_trade(client, message, state: State):
     await asyncio.sleep(5)
 
     for i in range(1, 6):
-        msg = await app.get_messages(chat_id=name_bot, message_ids=message.id + i)
-        card_number = re.sub('[^0-9]', '', msg.text)
         await asyncio.sleep(1)
+        msg = await app.get_messages(chat_id=name_bot, message_ids=message.id + i)
+        card_number = re.sub('[^0-9]', '', str(msg.text))
         if 'Ожидание' in msg.text:
             cancel_btn_msg = msg
         elif card_number >= 16 or card_number >= 10:
