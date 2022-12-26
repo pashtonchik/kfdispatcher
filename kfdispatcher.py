@@ -230,7 +230,7 @@ async def get_trade(client, message, state: State):
     try:
         print(f'Получен номер карты: {card_number}')
     except Exception as e:
-         data = {
+        data = {
             "chat_id" : "-1001839190420",
             "text" : f"Номер карты не удалось получить. Сделка {id}"
         }
