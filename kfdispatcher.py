@@ -194,7 +194,7 @@ async def change_status(client, message):
 async def get_trade(client, message, state: State):
     await state.set_state(Actions.newTrade)
     asyncio.get_event_loop()
-    
+
     trade = message.text
     
     trade_split = trade.split('\n')
@@ -217,17 +217,25 @@ async def get_trade(client, message, state: State):
     for i in range(1, 6):
         await asyncio.sleep(1)
         msg = await app.get_messages(chat_id=name_bot, message_ids=message.id + i)
-        card_number = re.sub('[^0-9]', '', str(msg.text))
-        print(len(card_number), card_number)
+        proof_card_number = re.sub('[^0-9]', '', str(msg.text))
+        print(len(proof_card_number), proof_card_number)
         if 'Ожидание' in msg.text:
             cancel_btn_msg = msg
             print('Ожидание')
-        elif len(card_number) >= 16 or len(card_number) >= 10:
+        elif len(proof_card_number) >= 16 or len(proof_card_number) >= 10:
             card_number = msg.text 
             print(f"Карта: {card_number}")
     # card_number = msg.text
-    print(f'Получен номер карты: {card_number}')
 
+    try:
+        print(f'Получен номер карты: {card_number}')
+    except Exception as e:
+         data = {
+            "chat_id" : "-1001839190420",
+            "text" : f"Номер карты не удалось получить. Сделка {id}"
+        }
+        notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
+    
     trade_info = {
         'tg_account' : account_name,
         'id': id,
