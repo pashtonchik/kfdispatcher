@@ -62,7 +62,6 @@ async def notification(client, message):
             "text" : message.text
         }
     notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
-    # print('12123494394')
 
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Общи\w+'))
 async def general_status_menu(client, message):
@@ -219,7 +218,7 @@ async def get_trade(client, message, state: State):
         msg = await app.get_messages(chat_id=name_bot, message_ids=message.id + i)
         proof_card_number = re.sub('[^0-9]', '', str(msg.text))
         print(len(proof_card_number), proof_card_number)
-        if 'Ожидание' in msg.text:
+        if 'Ожидание' in str(msg.text):
             cancel_btn_msg = msg
             print('Ожидание')
         elif len(proof_card_number) >= 16 or len(proof_card_number) >= 10:
