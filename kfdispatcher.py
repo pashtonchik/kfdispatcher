@@ -118,12 +118,12 @@ async def check_message(msg_id, client, id):
 
                     except Exception:
                         print(Exception)
-                        continue
-        except Exception:
-            print(Exception)
-        finally:
+                        await asyncio.sleep(5)
+            
             await asyncio.sleep(5)
-            continue
+        except Exception as e:
+            print(e)
+            await asyncio.sleep(5)
 
 @app.on_message(filters=filters.user(name_bot) & filters.regex('Смена статус\w+'))
 async def change_status(client, message):
@@ -235,6 +235,7 @@ async def get_trade(client, message, state: State):
             msg = await app.get_messages(chat_id=name_bot, message_ids=message.id + i)
             proof_card_number = re.sub('[^0-9]', '', str(msg.text))
             print(len(proof_card_number), proof_card_number)
+            print(msg)
             if 'Ожидание' in str(msg.text):
                 cancel_btn_msg = msg
                 print('Ожидание')
@@ -380,7 +381,7 @@ async def send_check(kftrade_id):
                 print(f'Сделка confirm_payment {kftrade_id}')
                 return 'confirm_payment'
             else:
-                continue
+                pass
 
 
 
