@@ -241,9 +241,12 @@ async def get_trade(client, message, state: State):
                             message_id=message.id,
                             callback_data=message.reply_markup.inline_keyboard[0][0].callback_data,
             )
+    
+        await asyncio.sleep(3)
         
         try:
             msg_deal = await app.get_messages(chat_id=name_bot, message_ids=message.id)
+            print(msg_deal.text)
             if not 'Принят в работу' in msg_deal.text:
                 await client.request_callback_answer(
                             chat_id=name_bot,
@@ -496,7 +499,7 @@ async def accept_cheque(client, message, state: State):
         print(e)
         data = {
             "chat_id" : "-1001839190420",
-            "text" : f"Не удалось закрыть сделку. Пробую еще раз. Сделка {id}"
+            "text" : f"Не удалось закрыть сделку. Пробую еще раз. Сделка {kftrade_id}"
         }
         notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
         await client.request_callback_answer(
@@ -504,9 +507,12 @@ async def accept_cheque(client, message, state: State):
                         message_id=message.id,
                         callback_data=message.reply_markup.inline_keyboard[0][0].callback_data,
         )
-    
+
+    await asyncio.sleep(3)
+
     try:
         msg_deal = await app.get_messages(chat_id=name_bot, message_ids=state_data['msg_id'])
+        print(msg_deal.text)
         if not 'ОПЛАЧЕН' in msg_deal.text:
             await client.request_callback_answer(
                         chat_id=name_bot,
@@ -519,7 +525,7 @@ async def accept_cheque(client, message, state: State):
             if not 'ОПЛАЧЕН' in msg_deal.text:
                 data = {
                     "chat_id" : "-1001839190420",
-                    "text" : f"Попытался закрыть сделку, не получилось. Сделка {id}"
+                    "text" : f"Попытался закрыть сделку, не получилось. Сделка {kftrade_id}"
                 }
                 notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
                 print('FUCKING CONFIRM DEALS MESSAGE')
@@ -528,7 +534,7 @@ async def accept_cheque(client, message, state: State):
         print(e)
         data = {
             "chat_id" : "-1001839190420",
-            "text" : f"Попытался получить сообщение со сделкой, не получилось. Сделка {id}"
+            "text" : f"Попытался получить сообщение со сделкой, не получилось. Сделка {kftrade_id}"
         }
         notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
 
