@@ -212,46 +212,124 @@ async def get_trade(client, message, state: State):
         asyncio.get_event_loop()
         cancel_btn_msg = None
         trade = message.text
-        
+        card_number = ''
         trade_split = trade.split('\n')
 
         id = trade_split[1].split()[1]
         
         id = account_name + '-' + id
         
-        await state.set_data({'id': id})
+        await state.set_data({'id': id, 'msg_id': message.id})
         
         await asyncio.sleep(2)
         
         try:
-            await message.click(0, 0, timeout=0)
-        except TimeoutError:
-            pass
+            await client.request_callback_answer(
+                            chat_id=name_bot,
+                            message_id=message.id,
+                            callback_data=message.reply_markup.inline_keyboard[0][0].callback_data,
+            )
+        except Exception as e:
+            print(e)
+            data = {
+                "chat_id" : "-1001839190420",
+                "text" : f"Не удалось принять сделку. Пробую еще раз. Сделка {id}"
+            }
+            notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
+            await client.request_callback_answer(
+                            chat_id=name_bot,
+                            message_id=message.id,
+                            callback_data=message.reply_markup.inline_keyboard[0][0].callback_data,
+            )
+        
+        try:
+            msg_deal = await app.get_messages(chat_id=name_bot, message_ids=message.id)
+            if not 'Принят в работу' in msg_deal.text:
+                await client.request_callback_answer(
+                            chat_id=name_bot,
+                            message_id=msg_deal.id,
+                            callback_data=msg_deal.reply_markup.inline_keyboard[0][0].callback_data,
+                )
+                await asyncio.sleep(2)
+                msg_deal = await app.get_messages(chat_id=name_bot, message_ids=msg_deal.id)
+
+                if not 'Принят в работу' in msg_deal.text:
+                    data = {
+                        "chat_id" : "-1001839190420",
+                        "text" : f"Попытался принять сделку, не получилось. Сделка {id}"
+                    }
+                    notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
+                    print('FUCKING DEALS MESSAGE')
+                    return 'FuckThisShit!'
+        except Exception as e:
+            print(e)
+            data = {
+                "chat_id" : "-1001839190420",
+                "text" : f"Попытался получить сообщение со сделкой, не получилось. Сделка {id}"
+            }
+            notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
+
+
+
         
         await asyncio.sleep(5)
 
-        for i in range(1, 6):
+        for i in range(1, 10):
             await asyncio.sleep(2)
             msg = await app.get_messages(chat_id=name_bot, message_ids=message.id + i)
             proof_card_number = re.sub('[^0-9]', '', str(msg.text))
-            print(len(proof_card_number), proof_card_number)
-            print(msg)
             if 'Ожидание' in str(msg.text):
                 cancel_btn_msg = msg
                 print('Ожидание')
             elif len(proof_card_number) >= 16 or len(proof_card_number) >= 10:
                 card_number = msg.text 
                 print(f"Карта: {card_number}")
-
-        try:
-            print(f'Получен номер карты: {card_number}')
-        except Exception as e:
+        if not card_number:
             data = {
                 "chat_id" : "-1001839190420",
-                "text" : f"Номер карты не удалось получить. Сделка {id}"
+                "text" : f"Номер карты не удалось получить, пробую еще раз. Сделка {id}"
             }
             notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
+            for i in range(1, 10):
+                await asyncio.sleep(2)
+                msg = await app.get_messages(chat_id=name_bot, message_ids=message.id + i)
+                proof_card_number = re.sub('[^0-9]', '', str(msg.text))
+                if len(proof_card_number) >= 16 or len(proof_card_number) >= 10:
+                    card_number = msg.text 
+                    print(f'Получен номер карты: {card_number}')
+            
+            if not card_number:
+                data = {
+                    "chat_id" : "-1001839190420",
+                    "text" : f"Номер карты не удалось получить. Сделка {id}"
+                }
+                notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
+                print('FUCKING CARD')
+                return "FuckThisShit!"
+
+        if not cancel_btn_msg:
+            data = {
+                "chat_id" : "-1001839190420",
+                "text" : f"Сообщение с отменой не получено, пробую еще раз. Сделка {id}"
+            }
+            notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
+            for i in range(1, 10):
+                await asyncio.sleep(2)
+                msg = await app.get_messages(chat_id=name_bot, message_ids=message.id + i)
+                if 'Ожидание' in str(msg.text):
+                    cancel_btn_msg = msg
+                    print('Ожидание')
+            
+            if not cancel_btn_msg:
+                data = {
+                "chat_id" : "-1001839190420",
+                "text" : f"Сообщение с отменой не получено. Сделка {id}"
+                }
+                notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
+                print('FUCKING CANCEL BTN')
+                return "FuckThisShit!"
         
+
         trade_info = {
             'tg_account' : account_name,
             'id': id,
@@ -294,11 +372,34 @@ async def get_trade(client, message, state: State):
                             btn_to_cancel = cancel_btn_msg
                         else:
                             btn_to_cancel = await app.get_messages(chat_id=name_bot, message_ids=message.id + 5)
+                        
                         await client.request_callback_answer(
                             chat_id=name_bot,
                             message_id=btn_to_cancel.id,
                             callback_data=btn_to_cancel.reply_markup.inline_keyboard[0][0].callback_data,
                         )
+                        btn_to_cancel = await app.get_messages(chat_id=name_bot, message_ids=btn_to_cancel.id)
+
+                        if not btn_to_cancel.empty:
+                            data = {
+                                "chat_id" : "-1001839190420",
+                                "text" : f"Не удалось закрыть сделку по времени/комментарию. Пробую еще раз. Сделка {id}"
+                            }
+                            notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
+                            await client.request_callback_answer(
+                                            chat_id=name_bot,
+                                            message_id=btn_to_cancel.id,
+                                            callback_data=btn_to_cancel.reply_markup.inline_keyboard[0][0].callback_data,
+                            )
+
+                        if not btn_to_cancel.empty:
+                            data = {
+                                "chat_id" : "-1001839190420",
+                                "text" : f"Не удалось закрыть сделку по времени/комментарию. Сделка {id}"
+                            }
+                            notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
+                            return "FUCKING KF BOTS"
+                    
                     except TimeoutError:
                         await asyncio.sleep(1)
                 except TimeoutError:
@@ -355,12 +456,6 @@ async def get_trade(client, message, state: State):
             error = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
 
 
-# @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cancelTrade))
-# async def send_cancel_message(client, message, state: State):
-# @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.cardNumber) & filters.regex('\w+\d{8}\w+'))
-# async def get_card_number(client, message, state: State):
-
-
 
 async def send_check(kftrade_id):
     start_time = time.time()
@@ -388,12 +483,56 @@ async def send_check(kftrade_id):
 @app.on_message(filters=filters.user(name_bot) & StateFilter(Actions.acceptCheck) & filters.regex('Это докумен\w+'))
 async def accept_cheque(client, message, state: State):
     await asyncio.sleep(3)
-    try:
-        await message.click(0, 0, timeout=0)
-    except TimeoutError:
-        print('тык да')
     state_data = await state.get_data()
     kftrade_id = state_data['id']
+    
+    try:
+        await client.request_callback_answer(
+                        chat_id=name_bot,
+                        message_id=message.id,
+                        callback_data=message.reply_markup.inline_keyboard[0][0].callback_data,
+        )
+    except Exception as e:
+        print(e)
+        data = {
+            "chat_id" : "-1001839190420",
+            "text" : f"Не удалось закрыть сделку. Пробую еще раз. Сделка {id}"
+        }
+        notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
+        await client.request_callback_answer(
+                        chat_id=name_bot,
+                        message_id=message.id,
+                        callback_data=message.reply_markup.inline_keyboard[0][0].callback_data,
+        )
+    
+    try:
+        msg_deal = await app.get_messages(chat_id=name_bot, message_ids=state_data['msg_id'])
+        if not 'ОПЛАЧЕН' in msg_deal.text:
+            await client.request_callback_answer(
+                        chat_id=name_bot,
+                        message_id=msg_deal.id,
+                        callback_data=msg_deal.reply_markup.inline_keyboard[0][0].callback_data,
+            )
+            await asyncio.sleep(2)
+            msg_deal = await app.get_messages(chat_id=name_bot, message_ids=msg_deal.id)
+
+            if not 'ОПЛАЧЕН' in msg_deal.text:
+                data = {
+                    "chat_id" : "-1001839190420",
+                    "text" : f"Попытался закрыть сделку, не получилось. Сделка {id}"
+                }
+                notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
+                print('FUCKING CONFIRM DEALS MESSAGE')
+                return 'FuckThisShit!'
+    except Exception as e:
+        print(e)
+        data = {
+            "chat_id" : "-1001839190420",
+            "text" : f"Попытался получить сообщение со сделкой, не получилось. Сделка {id}"
+        }
+        notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
+
+
 
     trade_info = {
         'id': kftrade_id,

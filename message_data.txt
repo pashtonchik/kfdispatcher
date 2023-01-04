@@ -1,0 +1,1050 @@
+{
+    "_": "Message",
+    "id": 26125,
+    "from_user": {
+        "_": "User",
+        "id": 1630743715,
+        "is_self": false,
+        "is_contact": false,
+        "is_mutual_contact": false,
+        "is_deleted": false,
+        "is_bot": true,
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "is_premium": false,
+        "first_name": "P2P-Bot",
+        "username": "KFOperatingBot",
+        "dc_id": 2,
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        }
+    },
+    "date": "2023-01-04 23:41:38",
+    "chat": {
+        "_": "Chat",
+        "id": 1630743715,
+        "type": "ChatType.BOT",
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "username": "KFOperatingBot",
+        "first_name": "P2P-Bot",
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        },
+        "dc_id": 2
+    },
+    "mentioned": false,
+    "scheduled": false,
+    "from_scheduled": false,
+    "has_protected_content": false,
+    "text": "Источник: XTLOGIC/77\nID: 2697863\nАдресат: 437772******1986\nТип: CARD\nИнструмент: TINKOFF\nСумма: 10063\nФ.И.О.: -\nКомментарий:",
+    "outgoing": false,
+    "reply_markup": {
+        "_": "InlineKeyboardMarkup",
+        "inline_keyboard": [
+            [
+                {
+                    "_": "InlineKeyboardButton",
+                    "text": "Принять",
+                    "callback_data": "p2p_payout_accept_2697863"
+                },
+                {
+                    "_": "InlineKeyboardButton",
+                    "text": "Отмена",
+                    "callback_data": "p2p_payout_cancel_2697863"
+                }
+            ]
+        ]
+    },
+    "middleware_patch_state": {
+        "_": "State",
+        "name": "*"
+    },
+    "middleware_helper": {
+        "_": "MiddlewareHelper",
+        "state": {
+            "_": "State",
+            "name": "*"
+        }
+    }
+}{
+    "_": "Message",
+    "id": 26126,
+    "from_user": {
+        "_": "User",
+        "id": 1630743715,
+        "is_self": false,
+        "is_contact": false,
+        "is_mutual_contact": false,
+        "is_deleted": false,
+        "is_bot": true,
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "is_premium": false,
+        "first_name": "P2P-Bot",
+        "username": "KFOperatingBot",
+        "dc_id": 2,
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        }
+    },
+    "date": "2023-01-04 23:42:00",
+    "chat": {
+        "_": "Chat",
+        "id": 1630743715,
+        "type": "ChatType.BOT",
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "username": "KFOperatingBot",
+        "first_name": "P2P-Bot",
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        },
+        "dc_id": 2
+    },
+    "mentioned": false,
+    "scheduled": false,
+    "from_scheduled": false,
+    "has_protected_content": false,
+    "text": "TINKOFF",
+    "outgoing": false,
+    "middleware_patch_state": {
+        "_": "State",
+        "name": "*"
+    },
+    "middleware_helper": {
+        "_": "MiddlewareHelper",
+        "state": {
+            "_": "State",
+            "name": "*"
+        }
+    }
+}{
+    "_": "Message",
+    "id": 26127,
+    "from_user": {
+        "_": "User",
+        "id": 1630743715,
+        "is_self": false,
+        "is_contact": false,
+        "is_mutual_contact": false,
+        "is_deleted": false,
+        "is_bot": true,
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "is_premium": false,
+        "first_name": "P2P-Bot",
+        "username": "KFOperatingBot",
+        "dc_id": 2,
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        }
+    },
+    "date": "2023-01-04 23:42:00",
+    "chat": {
+        "_": "Chat",
+        "id": 1630743715,
+        "type": "ChatType.BOT",
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "username": "KFOperatingBot",
+        "first_name": "P2P-Bot",
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        },
+        "dc_id": 2
+    },
+    "mentioned": false,
+    "scheduled": false,
+    "from_scheduled": false,
+    "has_protected_content": false,
+    "text": "4377727818451986",
+    "entities": [
+        {
+            "_": "MessageEntity",
+            "type": "MessageEntityType.BANK_CARD",
+            "offset": 0,
+            "length": 16
+        }
+    ],
+    "outgoing": false,
+    "middleware_patch_state": {
+        "_": "State",
+        "name": "*"
+    },
+    "middleware_helper": {
+        "_": "MiddlewareHelper",
+        "state": {
+            "_": "State",
+            "name": "*"
+        }
+    }
+}{
+    "_": "Message",
+    "id": 26128,
+    "from_user": {
+        "_": "User",
+        "id": 1630743715,
+        "is_self": false,
+        "is_contact": false,
+        "is_mutual_contact": false,
+        "is_deleted": false,
+        "is_bot": true,
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "is_premium": false,
+        "first_name": "P2P-Bot",
+        "username": "KFOperatingBot",
+        "dc_id": 2,
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        }
+    },
+    "date": "2023-01-04 23:42:00",
+    "chat": {
+        "_": "Chat",
+        "id": 1630743715,
+        "type": "ChatType.BOT",
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "username": "KFOperatingBot",
+        "first_name": "P2P-Bot",
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        },
+        "dc_id": 2
+    },
+    "mentioned": false,
+    "scheduled": false,
+    "from_scheduled": false,
+    "has_protected_content": false,
+    "text": "10063",
+    "outgoing": false,
+    "middleware_patch_state": {
+        "_": "State",
+        "name": "*"
+    },
+    "middleware_helper": {
+        "_": "MiddlewareHelper",
+        "state": {
+            "_": "State",
+            "name": "*"
+        }
+    }
+}{
+    "_": "Message",
+    "id": 26129,
+    "from_user": {
+        "_": "User",
+        "id": 1630743715,
+        "is_self": false,
+        "is_contact": false,
+        "is_mutual_contact": false,
+        "is_deleted": false,
+        "is_bot": true,
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "is_premium": false,
+        "first_name": "P2P-Bot",
+        "username": "KFOperatingBot",
+        "dc_id": 2,
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        }
+    },
+    "date": "2023-01-04 23:42:01",
+    "chat": {
+        "_": "Chat",
+        "id": 1630743715,
+        "type": "ChatType.BOT",
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "username": "KFOperatingBot",
+        "first_name": "P2P-Bot",
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        },
+        "dc_id": 2
+    },
+    "mentioned": false,
+    "scheduled": false,
+    "from_scheduled": false,
+    "has_protected_content": false,
+    "text": "-",
+    "outgoing": false,
+    "middleware_patch_state": {
+        "_": "State",
+        "name": "*"
+    },
+    "middleware_helper": {
+        "_": "MiddlewareHelper",
+        "state": {
+            "_": "State",
+            "name": "*"
+        }
+    }
+}{
+    "_": "Message",
+    "id": 26130,
+    "from_user": {
+        "_": "User",
+        "id": 1630743715,
+        "is_self": false,
+        "is_contact": false,
+        "is_mutual_contact": false,
+        "is_deleted": false,
+        "is_bot": true,
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "is_premium": false,
+        "first_name": "P2P-Bot",
+        "username": "KFOperatingBot",
+        "dc_id": 2,
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        }
+    },
+    "date": "2023-01-04 23:42:01",
+    "chat": {
+        "_": "Chat",
+        "id": 1630743715,
+        "type": "ChatType.BOT",
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "username": "KFOperatingBot",
+        "first_name": "P2P-Bot",
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        },
+        "dc_id": 2
+    },
+    "reply_to_message_id": 26125,
+    "reply_to_message": {
+        "_": "Message",
+        "id": 26125,
+        "from_user": {
+            "_": "User",
+            "id": 1630743715,
+            "is_self": false,
+            "is_contact": false,
+            "is_mutual_contact": false,
+            "is_deleted": false,
+            "is_bot": true,
+            "is_verified": false,
+            "is_restricted": false,
+            "is_scam": false,
+            "is_fake": false,
+            "is_support": false,
+            "is_premium": false,
+            "first_name": "P2P-Bot",
+            "username": "KFOperatingBot",
+            "dc_id": 2,
+            "photo": {
+                "_": "ChatPhoto",
+                "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+                "small_photo_unique_id": "AgADqsIxGxiIsEs",
+                "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+                "big_photo_unique_id": "AgADqsIxGxiIsEs"
+            }
+        },
+        "date": "2023-01-04 23:41:38",
+        "chat": {
+            "_": "Chat",
+            "id": 1630743715,
+            "type": "ChatType.BOT",
+            "is_verified": false,
+            "is_restricted": false,
+            "is_scam": false,
+            "is_fake": false,
+            "is_support": false,
+            "username": "KFOperatingBot",
+            "first_name": "P2P-Bot",
+            "photo": {
+                "_": "ChatPhoto",
+                "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+                "small_photo_unique_id": "AgADqsIxGxiIsEs",
+                "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+                "big_photo_unique_id": "AgADqsIxGxiIsEs"
+            },
+            "dc_id": 2
+        },
+        "mentioned": false,
+        "scheduled": false,
+        "from_scheduled": false,
+        "edit_date": "2023-01-04 23:42:01",
+        "has_protected_content": false,
+        "text": "Источник: XTLOGIC/77\nID: 2697863\nАдресат: 437772******1986\nТип: CARD\nИнструмент: TINKOFF\nСумма: 10063\nФ.И.О.: -\nКомментарий:\n------------------------------------\nПринят в работу:",
+        "entities": [
+            {
+                "_": "MessageEntity",
+                "type": "MessageEntityType.BOLD",
+                "offset": 162,
+                "length": 16
+            }
+        ],
+        "outgoing": false,
+        "middleware_patch_state": {
+            "_": "State",
+            "name": "*"
+        },
+        "middleware_helper": {
+            "_": "MiddlewareHelper",
+            "state": {
+                "_": "State",
+                "name": "*"
+            }
+        }
+    },
+    "mentioned": false,
+    "scheduled": false,
+    "from_scheduled": false,
+    "has_protected_content": false,
+    "text": "⚠️Ожидание подтвержения ( Отправка чека )",
+    "outgoing": false,
+    "reply_markup": {
+        "_": "InlineKeyboardMarkup",
+        "inline_keyboard": [
+            [
+                {
+                    "_": "InlineKeyboardButton",
+                    "text": "Отменить ввод чека ",
+                    "callback_data": "p2p_payout_cancel_2697863"
+                }
+            ]
+        ]
+    },
+    "middleware_patch_state": {
+        "_": "State",
+        "name": "*"
+    },
+    "middleware_helper": {
+        "_": "MiddlewareHelper",
+        "state": {
+            "_": "State",
+            "name": "*"
+        }
+    }
+}{
+    "_": "Message",
+    "id": 26131,
+    "from_user": {
+        "_": "User",
+        "id": 1630743715,
+        "is_self": false,
+        "is_contact": false,
+        "is_mutual_contact": false,
+        "is_deleted": false,
+        "is_bot": true,
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "is_premium": false,
+        "first_name": "P2P-Bot",
+        "username": "KFOperatingBot",
+        "dc_id": 2,
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        }
+    },
+    "date": "2023-01-04 23:42:06",
+    "chat": {
+        "_": "Chat",
+        "id": 1630743715,
+        "type": "ChatType.BOT",
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "username": "KFOperatingBot",
+        "first_name": "P2P-Bot",
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        },
+        "dc_id": 2
+    },
+    "reply_to_message_id": 26125,
+    "reply_to_message": {
+        "_": "Message",
+        "id": 26125,
+        "from_user": {
+            "_": "User",
+            "id": 1630743715,
+            "is_self": false,
+            "is_contact": false,
+            "is_mutual_contact": false,
+            "is_deleted": false,
+            "is_bot": true,
+            "is_verified": false,
+            "is_restricted": false,
+            "is_scam": false,
+            "is_fake": false,
+            "is_support": false,
+            "is_premium": false,
+            "first_name": "P2P-Bot",
+            "username": "KFOperatingBot",
+            "dc_id": 2,
+            "photo": {
+                "_": "ChatPhoto",
+                "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+                "small_photo_unique_id": "AgADqsIxGxiIsEs",
+                "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+                "big_photo_unique_id": "AgADqsIxGxiIsEs"
+            }
+        },
+        "date": "2023-01-04 23:41:38",
+        "chat": {
+            "_": "Chat",
+            "id": 1630743715,
+            "type": "ChatType.BOT",
+            "is_verified": false,
+            "is_restricted": false,
+            "is_scam": false,
+            "is_fake": false,
+            "is_support": false,
+            "username": "KFOperatingBot",
+            "first_name": "P2P-Bot",
+            "photo": {
+                "_": "ChatPhoto",
+                "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+                "small_photo_unique_id": "AgADqsIxGxiIsEs",
+                "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+                "big_photo_unique_id": "AgADqsIxGxiIsEs"
+            },
+            "dc_id": 2
+        },
+        "mentioned": false,
+        "scheduled": false,
+        "from_scheduled": false,
+        "edit_date": "2023-01-04 23:42:01",
+        "has_protected_content": false,
+        "text": "Источник: XTLOGIC/77\nID: 2697863\nАдресат: 437772******1986\nТип: CARD\nИнструмент: TINKOFF\nСумма: 10063\nФ.И.О.: -\nКомментарий:\n------------------------------------\nПринят в работу:",
+        "entities": [
+            {
+                "_": "MessageEntity",
+                "type": "MessageEntityType.BOLD",
+                "offset": 162,
+                "length": 16
+            }
+        ],
+        "outgoing": false,
+        "middleware_patch_state": {
+            "_": "State",
+            "name": "*"
+        },
+        "middleware_helper": {
+            "_": "MiddlewareHelper",
+            "state": {
+                "_": "State",
+                "name": "*"
+            }
+        }
+    },
+    "mentioned": false,
+    "scheduled": false,
+    "from_scheduled": false,
+    "has_protected_content": false,
+    "text": "⛔️ ВНИМАНИЕ !! РЕЖИМ:ОТМЕНА\nВведите причину, если случано, нажмите отмена",
+    "entities": [
+        {
+            "_": "MessageEntity",
+            "type": "MessageEntityType.BOLD",
+            "offset": 3,
+            "length": 24
+        },
+        {
+            "_": "MessageEntity",
+            "type": "MessageEntityType.BOLD",
+            "offset": 67,
+            "length": 6
+        }
+    ],
+    "outgoing": false,
+    "reply_markup": {
+        "_": "InlineKeyboardMarkup",
+        "inline_keyboard": [
+            [
+                {
+                    "_": "InlineKeyboardButton",
+                    "text": "Отмена, Вернуться к вводу чека",
+                    "callback_data": "p2p_payout_return_2697863"
+                }
+            ]
+        ]
+    },
+    "middleware_patch_state": {
+        "_": "State",
+        "name": "*"
+    },
+    "middleware_helper": {
+        "_": "MiddlewareHelper",
+        "state": {
+            "_": "State",
+            "name": "*"
+        }
+    }
+}{
+    "_": "Message",
+    "id": 26134,
+    "from_user": {
+        "_": "User",
+        "id": 1630743715,
+        "is_self": false,
+        "is_contact": false,
+        "is_mutual_contact": false,
+        "is_deleted": false,
+        "is_bot": true,
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "is_premium": false,
+        "first_name": "P2P-Bot",
+        "username": "KFOperatingBot",
+        "dc_id": 2,
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        }
+    },
+    "date": "2023-01-04 23:42:17",
+    "chat": {
+        "_": "Chat",
+        "id": 1630743715,
+        "type": "ChatType.BOT",
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "username": "KFOperatingBot",
+        "first_name": "P2P-Bot",
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        },
+        "dc_id": 2
+    },
+    "mentioned": false,
+    "scheduled": false,
+    "from_scheduled": false,
+    "has_protected_content": false,
+    "text": " Общий статус: *ON\n===============================\nАльфа-Банк:          0.00 OFF\nСБЕРБАНК  : -1,401,945.00 *ON\nТИНЬКОФФ  :-17,297,602.00 *ON",
+    "entities": [
+        {
+            "_": "MessageEntity",
+            "type": "MessageEntityType.PRE",
+            "offset": 0,
+            "length": 140,
+            "language": ""
+        }
+    ],
+    "outgoing": false,
+    "reply_markup": {
+        "_": "InlineKeyboardMarkup",
+        "inline_keyboard": [
+            [
+                {
+                    "_": "InlineKeyboardButton",
+                    "text": "Сменить",
+                    "callback_data": "p2p_private_status_edit"
+                },
+                {
+                    "_": "InlineKeyboardButton",
+                    "text": "Отмена",
+                    "callback_data": "p2p_private_status_editok"
+                }
+            ]
+        ]
+    },
+    "middleware_patch_state": {
+        "_": "State",
+        "name": "*"
+    },
+    "middleware_helper": {
+        "_": "MiddlewareHelper",
+        "state": {
+            "_": "State",
+            "name": "*"
+        }
+    }
+}{
+    "_": "Message",
+    "id": 26135,
+    "from_user": {
+        "_": "User",
+        "id": 1630743715,
+        "is_self": false,
+        "is_contact": false,
+        "is_mutual_contact": false,
+        "is_deleted": false,
+        "is_bot": true,
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "is_premium": false,
+        "first_name": "P2P-Bot",
+        "username": "KFOperatingBot",
+        "dc_id": 2,
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        }
+    },
+    "date": "2023-01-04 23:42:18",
+    "chat": {
+        "_": "Chat",
+        "id": 1630743715,
+        "type": "ChatType.BOT",
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "username": "KFOperatingBot",
+        "first_name": "P2P-Bot",
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        },
+        "dc_id": 2
+    },
+    "mentioned": false,
+    "scheduled": false,
+    "from_scheduled": false,
+    "has_protected_content": false,
+    "text": "Смена статусов",
+    "outgoing": false,
+    "reply_markup": {
+        "_": "InlineKeyboardMarkup",
+        "inline_keyboard": [
+            [
+                {
+                    "_": "InlineKeyboardButton",
+                    "text": "Общий статус : ВЫКЛЮЧИТЬ",
+                    "callback_data": "p2p_private_status_editbase_disable"
+                }
+            ],
+            [
+                {
+                    "_": "InlineKeyboardButton",
+                    "text": "Альфа-Банк - ВКЛЮЧИТЬ",
+                    "callback_data": "p2p_private_status_edittool_ALPHABANK_enable"
+                }
+            ],
+            [
+                {
+                    "_": "InlineKeyboardButton",
+                    "text": "СБЕРБАНК - ВЫКЛЮЧИТЬ",
+                    "callback_data": "p2p_private_status_edittool_SBERBANK_disable"
+                }
+            ],
+            [
+                {
+                    "_": "InlineKeyboardButton",
+                    "text": "ТИНЬКОФФ - ВЫКЛЮЧИТЬ",
+                    "callback_data": "p2p_private_status_edittool_TINKOFF_disable"
+                }
+            ],
+            [
+                {
+                    "_": "InlineKeyboardButton",
+                    "text": "Закончить",
+                    "callback_data": "p2p_private_status_editok"
+                }
+            ]
+        ]
+    },
+    "middleware_patch_state": {
+        "_": "State",
+        "name": "*"
+    },
+    "middleware_helper": {
+        "_": "MiddlewareHelper",
+        "state": {
+            "_": "State",
+            "name": "*"
+        }
+    }
+}{
+    "_": "Message",
+    "id": 26137,
+    "from_user": {
+        "_": "User",
+        "id": 1630743715,
+        "is_self": false,
+        "is_contact": false,
+        "is_mutual_contact": false,
+        "is_deleted": false,
+        "is_bot": true,
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "is_premium": false,
+        "first_name": "P2P-Bot",
+        "username": "KFOperatingBot",
+        "dc_id": 2,
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        }
+    },
+    "date": "2023-01-04 23:42:19",
+    "chat": {
+        "_": "Chat",
+        "id": 1630743715,
+        "type": "ChatType.BOT",
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "username": "KFOperatingBot",
+        "first_name": "P2P-Bot",
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        },
+        "dc_id": 2
+    },
+    "mentioned": false,
+    "scheduled": false,
+    "from_scheduled": false,
+    "has_protected_content": false,
+    "text": "Смена статусов",
+    "outgoing": false,
+    "reply_markup": {
+        "_": "InlineKeyboardMarkup",
+        "inline_keyboard": [
+            [
+                {
+                    "_": "InlineKeyboardButton",
+                    "text": "Общий статус : ВКЛЮЧИТЬ",
+                    "callback_data": "p2p_private_status_editbase_enable"
+                }
+            ],
+            [
+                {
+                    "_": "InlineKeyboardButton",
+                    "text": "Альфа-Банк - ВКЛЮЧИТЬ",
+                    "callback_data": "p2p_private_status_edittool_ALPHABANK_enable"
+                }
+            ],
+            [
+                {
+                    "_": "InlineKeyboardButton",
+                    "text": "СБЕРБАНК - ВЫКЛЮЧИТЬ",
+                    "callback_data": "p2p_private_status_edittool_SBERBANK_disable"
+                }
+            ],
+            [
+                {
+                    "_": "InlineKeyboardButton",
+                    "text": "ТИНЬКОФФ - ВЫКЛЮЧИТЬ",
+                    "callback_data": "p2p_private_status_edittool_TINKOFF_disable"
+                }
+            ],
+            [
+                {
+                    "_": "InlineKeyboardButton",
+                    "text": "Закончить",
+                    "callback_data": "p2p_private_status_editok"
+                }
+            ]
+        ]
+    },
+    "middleware_patch_state": {
+        "_": "State",
+        "name": "*"
+    },
+    "middleware_helper": {
+        "_": "MiddlewareHelper",
+        "state": {
+            "_": "State",
+            "name": "*"
+        }
+    }
+}{
+    "_": "Message",
+    "id": 26136,
+    "from_user": {
+        "_": "User",
+        "id": 1630743715,
+        "is_self": false,
+        "is_contact": false,
+        "is_mutual_contact": false,
+        "is_deleted": false,
+        "is_bot": true,
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "is_premium": false,
+        "first_name": "P2P-Bot",
+        "username": "KFOperatingBot",
+        "dc_id": 2,
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        }
+    },
+    "date": "2023-01-04 23:42:19",
+    "chat": {
+        "_": "Chat",
+        "id": 1630743715,
+        "type": "ChatType.BOT",
+        "is_verified": false,
+        "is_restricted": false,
+        "is_scam": false,
+        "is_fake": false,
+        "is_support": false,
+        "username": "KFOperatingBot",
+        "first_name": "P2P-Bot",
+        "photo": {
+            "_": "ChatPhoto",
+            "small_file_id": "AQADAgADqsIxGxiIsEsAEAIAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "small_photo_unique_id": "AgADqsIxGxiIsEs",
+            "big_file_id": "AQADAgADqsIxGxiIsEsAEAMAA6MsM2EABCQ9GzLbBKmaAAQeBA",
+            "big_photo_unique_id": "AgADqsIxGxiIsEs"
+        },
+        "dc_id": 2
+    },
+    "mentioned": false,
+    "scheduled": false,
+    "from_scheduled": false,
+    "has_protected_content": false,
+    "text": "Установлен статус MAIN : ВЫКЛЮЧЕН",
+    "outgoing": false,
+    "middleware_patch_state": {
+        "_": "State",
+        "name": "*"
+    },
+    "middleware_helper": {
+        "_": "MiddlewareHelper",
+        "state": {
+            "_": "State",
+            "name": "*"
+        }
+    }
+}
