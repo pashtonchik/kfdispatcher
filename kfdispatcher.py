@@ -381,6 +381,9 @@ async def get_trade(client, message, state: State):
                             message_id=btn_to_cancel.id,
                             callback_data=btn_to_cancel.reply_markup.inline_keyboard[0][0].callback_data,
                         )
+
+                        await asyncio.sleep(3)
+                        
                         btn_to_cancel = await app.get_messages(chat_id=name_bot, message_ids=btn_to_cancel.id)
 
                         if not btn_to_cancel.empty:
@@ -394,15 +397,16 @@ async def get_trade(client, message, state: State):
                                             message_id=btn_to_cancel.id,
                                             callback_data=btn_to_cancel.reply_markup.inline_keyboard[0][0].callback_data,
                             )
-
-                        if not btn_to_cancel.empty:
-                            data = {
-                                "chat_id" : "-1001839190420",
-                                "text" : f"Не удалось закрыть сделку по времени/комментарию. Сделка {id}"
-                            }
-                            notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
-                            return "FUCKING KF BOTS"
-                    
+                            await asyncio.sleep(3)
+                            btn_to_cancel = await app.get_messages(chat_id=name_bot, message_ids=btn_to_cancel.id)
+                            if not btn_to_cancel.empty:
+                                data = {
+                                    "chat_id" : "-1001839190420",
+                                    "text" : f"Не удалось закрыть сделку по времени/комментарию. Сделка {id}"
+                                }
+                                notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
+                                return "FUCKING KF BOTS"
+                        
                     except TimeoutError:
                         await asyncio.sleep(1)
                 except TimeoutError:
