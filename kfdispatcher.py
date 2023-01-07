@@ -233,7 +233,7 @@ async def get_trade(client, message, state: State):
             print(e)
             data = {
                 "chat_id" : "-1001839190420",
-                "text" : f"Не удалось принять сделку. Пробую еще раз. Сделка {id}"
+                "text" : f"[1 TRY] Не удалось принять сделку. Пробую еще раз. Сделка {id}"
             }
             notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
             await client.request_callback_answer(
@@ -259,7 +259,7 @@ async def get_trade(client, message, state: State):
                 if not 'Принят в работу' in msg_deal.text:
                     data = {
                         "chat_id" : "-1001839190420",
-                        "text" : f"Попытался принять сделку, не получилось. Сделка {id}"
+                        "text" : f"[2 TRY] Попытался принять сделку, не получилось. Бота нужно релоднуть. Сделка {id}"
                     }
                     notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
                     print('FUCKING DEALS MESSAGE')
@@ -268,7 +268,7 @@ async def get_trade(client, message, state: State):
             print(e)
             data = {
                 "chat_id" : "-1001839190420",
-                "text" : f"Попытался получить сообщение со сделкой, не получилось. Сделка {id}"
+                "text" : f"[ERROR] Попытался получить сообщение со сделкой, не получилось. Сделка {id}"
             }
             notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
 
@@ -290,7 +290,7 @@ async def get_trade(client, message, state: State):
         if not card_number:
             data = {
                 "chat_id" : "-1001839190420",
-                "text" : f"Номер карты не удалось получить, пробую еще раз. Сделка {id}"
+                "text" : f"[1 TRY] Номер карты не удалось получить, пробую еще раз. Сделка {id}"
             }
             notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
             for i in range(1, 10):
@@ -304,7 +304,7 @@ async def get_trade(client, message, state: State):
             if not card_number:
                 data = {
                     "chat_id" : "-1001839190420",
-                    "text" : f"Номер карты не удалось получить. Сделка {id}"
+                    "text" : f"[2 TRY] Номер карты не удалось получить. Бота нужно перезагрузить. Сделка {id}"
                 }
                 notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
                 print('FUCKING CARD')
@@ -313,7 +313,7 @@ async def get_trade(client, message, state: State):
         if not cancel_btn_msg:
             data = {
                 "chat_id" : "-1001839190420",
-                "text" : f"Сообщение с отменой не получено, пробую еще раз. Сделка {id}"
+                "text" : f"[1 TRY] Сообщение с отменой не получено, пробую еще раз. Сделка {id}"
             }
             notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
             for i in range(1, 10):
@@ -326,7 +326,7 @@ async def get_trade(client, message, state: State):
             if not cancel_btn_msg:
                 data = {
                 "chat_id" : "-1001839190420",
-                "text" : f"Сообщение с отменой не получено. Сделка {id}"
+                "text" : f"[2 TRY] Сообщение с отменой не получено. Бота нужно перезагрузить. Сделка {id}"
                 }
                 notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
                 print('FUCKING CANCEL BTN')
@@ -389,7 +389,7 @@ async def get_trade(client, message, state: State):
                         if not btn_to_cancel.empty:
                             data = {
                                 "chat_id" : "-1001839190420",
-                                "text" : f"Не удалось закрыть сделку по времени/комментарию. Пробую еще раз. Сделка {id}"
+                                "text" : f"[1 TRY] Не удалось закрыть сделку по времени/комментарию. Пробую еще раз. Сделка {id}"
                             }
                             notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
                             await client.request_callback_answer(
@@ -402,7 +402,7 @@ async def get_trade(client, message, state: State):
                             if not btn_to_cancel.empty:
                                 data = {
                                     "chat_id" : "-1001839190420",
-                                    "text" : f"Не удалось закрыть сделку по времени/комментарию. Сделка {id}"
+                                    "text" : f"[2 TRY] Не удалось закрыть сделку по времени/комментарию. Бота нужно перезагрузить. Сделка {id}"
                                 }
                                 notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
                                 return "FUCKING KF BOTS"
@@ -503,7 +503,7 @@ async def accept_cheque(client, message, state: State):
         print(e)
         data = {
             "chat_id" : "-1001839190420",
-            "text" : f"Не удалось закрыть сделку. Пробую еще раз. Сделка {kftrade_id}"
+            "text" : f"[1 TRY] Не удалось обработать сделку. Пробую еще раз. Сделка {kftrade_id}"
         }
         notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
         await client.request_callback_answer(
@@ -529,7 +529,7 @@ async def accept_cheque(client, message, state: State):
             if not 'ОПЛАЧЕН' in msg_deal.text:
                 data = {
                     "chat_id" : "-1001839190420",
-                    "text" : f"Попытался закрыть сделку, не получилось. Сделка {kftrade_id}"
+                    "text" : f"[2 TRY] Попытался обработать сделку, не получилось. Бота нужно перезагрузить. Сделка {kftrade_id}"
                 }
                 notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
                 print('FUCKING CONFIRM DEALS MESSAGE')
@@ -538,7 +538,7 @@ async def accept_cheque(client, message, state: State):
         print(e)
         data = {
             "chat_id" : "-1001839190420",
-            "text" : f"Попытался получить сообщение со сделкой, не получилось. Сделка {kftrade_id}"
+            "text" : f"[ERROR] Попытался получить сообщение со сделкой, не получилось. Сделка {kftrade_id}"
         }
         notify = requests.post("https://api.telegram.org/bot5156043800:AAF32TSVlvj0ILUvPu58A2nlIGMVilHCQJ4/sendMessage", json=data)
 
